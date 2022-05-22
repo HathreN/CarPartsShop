@@ -1,11 +1,26 @@
 import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
+import * as Realm from 'realm-web';
+
+let user;
 
 
+const loginAnonymous = async () => {
+  const REALM_APP_ID = "partsshop-iqmiv";
+  const app = new Realm.App({id: REALM_APP_ID});
+  const credentials = Realm.Credentials.anonymous()
+  try {
+    user = await app.logIn(credentials);
+    console.log(user)
+  }
+  catch(error) {
+    console.log(error)
+  }
+};
 const Index = () => {
+  loginAnonymous()
   const router = useRouter();
-
   return (
     <div className="relative bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -59,5 +74,6 @@ const Index = () => {
     </div>
   );
 };
-
 export default Index;
+export {user};
+

@@ -1,0 +1,59 @@
+[
+    {
+      "id": 1,
+      "category": "suspension",
+      "name": "gwint",
+      "image": "/gwint.jpg",
+      "carBrand": "BMW",
+      "price": 1200
+    }, {
+      "id": 2,
+      "category": "suspension",
+      "name": "gwint2",
+      "image": "/gwint.jpg",
+      "carBrand": "BMW",
+      "price": 3000
+    }, {
+      "id": 3,
+      "category": "interior",
+      "name": "podłoga",
+      "image": "/wnetrze.jpg",
+      "carBrand": "BMW",
+      "price": 200
+    }, {
+      "id": 4,
+      "category": "interior",
+      "name": "podłoga2",
+      "image": "/wnetrze.jpg",
+      "carBrand": "BMW",
+      "price": 300
+    }, {
+      "id": 5,
+      "category": "handbrake",
+      "name": "ręczny swagier",
+      "image": "/hydro.jpg",
+      "carBrand": "BMW",
+      "price": 700
+    }, {
+      "id": 6,
+      "category": "handbrake",
+      "name": "ręczny swagier2",
+      "image": "/hydro.jpg",
+      "carBrand": "BMW",
+      "price": 500
+    }, {
+      "id": 7,
+      "category": "shifter",
+      "name": "short shifter",
+      "image": "/shifter.jpg",
+      "carBrand": "BMW",
+      "price": 700
+    }, {
+      "id": 8,
+      "category": "shifter",
+      "name": "short shifter2",
+      "image": "/shifter.jpg",
+      "carBrand": "BMW",
+      "price": 700
+    },
+  ]

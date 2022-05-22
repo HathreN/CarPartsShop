@@ -2,80 +2,29 @@ import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { imageUrl } from '@/utils/Image';
-import { Auth0Provider } from '@auth0/auth0-react';
+import { useEffect, useState } from 'react';
+import * as Realm from 'realm-web';
 
 
 const Bestsellers = () => {
   const router = useRouter()
   const {category} = (router.query)
-  interface Part {
-    id: number,
-    category: string;
-    name: string;
-    image: string;
-    carBrand: string;
-    price: number;
+  const [parts, setParts] = useState([])
+  useEffect(()=> {
+    load()
+  },[])
+  async function load(){
+    const REALM_APP_ID = "partsshop-iqmiv";
+    const app = new Realm.App({id: REALM_APP_ID});
+    const credentials = Realm.Credentials.anonymous()
+    try{
+      const user = await app.logIn(credentials);
+      // @ts-ignore
+      await setParts(await user.functions.getAllParts());
+    } catch (error){
+      console.error(error)
+    }
   }
-
-  let Parts: Part[] = [
-    {
-      id: 1,
-      category: 'suspension',
-      name: 'gwint',
-      image: '/gwint.jpg',
-      carBrand: 'BMW',
-      price: 1200
-    }, {
-      id: 2,
-      category: 'suspension',
-      name: 'gwint2',
-      image: '/gwint.jpg',
-      carBrand: 'BMW',
-      price: 3000
-    }, {
-      id: 3,
-      category: 'interior',
-      name: 'podłoga',
-      image: '/wnetrze.jpg',
-      carBrand: 'BMW',
-      price: 200
-    }, {
-      id: 4,
-      category: 'interior',
-      name: 'podłoga2',
-      image: '/wnetrze.jpg',
-      carBrand: 'BMW',
-      price: 300
-    }, {
-      id: 5,
-      category: 'handbrake',
-      name: 'ręczny swagier',
-      image: '/hydro.jpg',
-      carBrand: 'BMW',
-      price: 700
-    }, {
-      id: 6,
-      category: 'handbrake',
-      name: 'ręczny swagier2',
-      image: '/hydro.jpg',
-      carBrand: 'BMW',
-      price: 500
-    }, {
-      id: 7,
-      category: 'shifter',
-      name: 'short shifter',
-      image: '/shifter.jpg',
-      carBrand: 'BMW',
-      price: 700
-    }, {
-      id: 8,
-      category: 'shifter',
-      name: 'short shifter2',
-      image: '/shifter.jpg',
-      carBrand: 'BMW',
-      price: 700
-    },
-  ];
   console.log(category);
   return (
     <div className="bg-white">
@@ -84,7 +33,7 @@ const Bestsellers = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty kupowane najczęściej</h2>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {Parts.map((product) => (
+          {parts.map((product) => (
               <Link href={{
                 pathname: 'part',
                 query: 'id='+ product.id }} key={product.id}>

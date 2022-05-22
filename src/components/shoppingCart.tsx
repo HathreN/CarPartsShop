@@ -1,85 +1,12 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ShoppingBagIcon } from '@heroicons/react/solid';
 import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
 import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
-interface Part {
-  id: number,
-  category: string;
-  name: string;
-  image: string;
-  carBrand: string;
-  price: number;
-  description?: string;
-  link?: string;
-  amount?: number;
-}
+import * as Realm from 'realm-web';
 
-let Parts: Part[] = [
-  {
-    id: 1,
-    category: 'suspension',
-    name: 'gwint',
-    image: '/gwint.jpg',
-    carBrand: 'BMW',
-    price: 1200
-  }, {
-    id: 2,
-    category: 'suspension',
-    name: 'gwint2',
-    image: '/gwint.jpg',
-    carBrand: 'BMW',
-    price: 3000,
-    description: 'Zawieszenie amerykańskiej firmy feal'
-  }, {
-    id: 3,
-    category: 'interior',
-    name: 'podłoga',
-    image: '/wnetrze.jpg',
-    carBrand: 'BMW',
-    link: '/part/?id=3',
-    price: 200
-  }, {
-    id: 4,
-    category: 'interior',
-    name: 'podłoga2',
-    image: '/wnetrze.jpg',
-    link: '/part/?id=4',
-    carBrand: 'BMW',
-    price: 300
-  }, {
-    id: 5,
-    category: 'handbrake',
-    name: 'ręczny swagier',
-    image: '/hydro.jpg',
-    carBrand: 'BMW',
-    price: 700
-  }, {
-    id: 6,
-    category: 'handbrake',
-    name: 'ręczny swagier2',
-    image: '/hydro.jpg',
-    carBrand: 'BMW',
-    link: '/part/?id=6',
-    price: 500
-  }, {
-    id: 7,
-    category: 'shifter',
-    name: 'short shifter',
-    image: '/shifter.jpg',
-    carBrand: 'BMW',
-    price: 700
-  }, {
-    id: 8,
-    category: 'shifter',
-    name: 'short shifter2',
-    image: '/shifter.jpg',
-    carBrand: 'BMW',
-    price: 700
-  },
-];
 let products = [
 ]
 function refreshCart(){
@@ -94,23 +21,34 @@ function refreshCart(){
 export default function ShoppingCart() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  // useEffect(() => {
-  //   refreshCart();
-  // },[open]);
+  const [parts, setParts] = useState([])
+  useEffect(()=> {
+    load()
+  },[])
+  async function load(){
+    const REALM_APP_ID = "partsshop-iqmiv";
+    const app = new Realm.App({id: REALM_APP_ID});
+    const credentials = Realm.Credentials.anonymous()
+    try{
+      const user = await app.logIn(credentials);
+      await setParts(await user.functions.getAllParts());
+    } catch (error){
+      console.error(error)
+    }
+  }
 
 
   if(open){
     refreshCart()
   }
-  let amountTemp: number = 0;
   let priceTotal: number = 0;
   function found (id: number) {
     let check: boolean =false;
     products.find((obj) => {
       if ((obj.id==id)==true){
         check= true;
-        Parts[id-1].amount = obj.amount
-        priceTotal += Parts[id-1].price*obj.amount;
+        parts[id-1].amount = obj.amount;
+        priceTotal += parts[id-1].price*obj.amount;
       } else {
         check = false;
       }
@@ -169,7 +107,7 @@ export default function ShoppingCart() {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {Parts.map((product,index) => (
+                            {parts.map((product,index) => (
                               found(product.id) && (
                               <li key={product.id} className="flex py-6">
                               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
