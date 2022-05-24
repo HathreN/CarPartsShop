@@ -14,4 +14,11 @@ module.exports = withBundleAnalyzer({
   // So, the source code is "basePath-ready".
   // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
+  webpack: (config) => {
+    if(!config.experiments) {
+      config.experiments ={};
+    }
+    config.experiments.topLevelAwait = true;
+    return config;
+  },
 });

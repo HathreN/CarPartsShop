@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0';
 
+
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <UserProvider>
     <Component {...pageProps} />

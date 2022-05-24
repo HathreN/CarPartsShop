@@ -46,6 +46,7 @@ const Part = () => {
     } else {
       item.amount++;
     }
+    console.log(JSON.stringify(cart))
     localStorage.setItem('shoppingCart', JSON.stringify(cart));
   }
   return (
