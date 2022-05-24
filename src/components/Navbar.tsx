@@ -5,6 +5,7 @@ import { MenuIcon } from '@heroicons/react/outline';
 import ShoppingCart from '@/components/shoppingCart';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useState } from 'react';
+import Link from 'next/link';
 const navigation = [
   { name: 'Bestsellery', href: '/bestsellers' },
   { name: 'Kategorie', href: '/categories' },
@@ -34,11 +35,11 @@ export default function Navbar({}) {
               </div>
             </div>
           </div>
-          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8 font-medium text-gray-500 hover:text-gray-900">
             {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="font-medium text-gray-500 hover:text-gray-900">
-                {item.name}
-              </a>
+              <Link href={{
+                pathname: item.href
+              }} key={item.name}>{item.name}</Link>
             ))}
 
             {(user) ? (

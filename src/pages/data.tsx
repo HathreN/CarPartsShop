@@ -4,14 +4,12 @@ import * as Realm from 'realm-web';
 export const APP_ID = 'partsshop-iqmiv';
 export const ATLAS_SERVICE = 'mongodb-atlas';
 export const app = new Realm.App({ id: APP_ID });
-
+export let user;
 // Function executed by the LOGIN button.
 export async function login() {
   const credentials = Realm.Credentials.anonymous();
   try {
-    const user = await app.logIn(credentials);
-    document.getElementById('user').innerText = '';
-    document.getElementById('user').append('User ID: ' + user.id); // update the user div with the user ID
+    user = await app.logIn(credentials);
   } catch (err) {
     console.error('Failed to log in', err);
   }

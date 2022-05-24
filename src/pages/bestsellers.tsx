@@ -5,10 +5,8 @@ import { imageUrl } from '@/utils/Image';
 import { useEffect, useState } from 'react';
 import * as Realm from 'realm-web';
 
-
 const Bestsellers = () => {
   const router = useRouter()
-  const {category} = (router.query)
   const [parts, setParts] = useState([])
   useEffect(()=> {
     load()
@@ -25,7 +23,6 @@ const Bestsellers = () => {
       console.error(error)
     }
   }
-  console.log(category);
   return (
     <div className="bg-white">
       <Navbar />
