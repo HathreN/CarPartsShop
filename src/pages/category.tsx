@@ -3,9 +3,32 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { useEffect, useState } from 'react';
-import * as Realm from 'realm-web';
+import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
+
+export const FIND_CATEGORY_PARTS = gql`
+  query FindCategoryParts($query: PartQueryInput!) {
+    parts(query: $query) {
+      _id
+      id
+      name
+      price
+      image
+      carBrand
+    }
+  }
+`;
 
 const Category = () => {
+
+  const router = useRouter()
+  const {category} = (router.query)
+  const { loading, data } = useQuery(FIND_CATEGORY_PARTS, {
+    variables: { query: { category: category } }
+  });
+  const categoryParts = data ? data.parts : null;
+  console.log(JSON.stringify(categoryParts))
+  console.log(loading)
   const [sort,setSort] = useState(0)
   function sortParts(variant: number){
     function SortArrayAlpha(x, y){
@@ -34,41 +57,20 @@ const Category = () => {
       return 0;
     }
     if(variant==1){
-     setParts(parts.sort(SortArrayAlpha));
+     setParts(categoryParts.sort(SortArrayAlpha));
       setSort(1)
-      console.log(sort)
     } else if( variant==2){
-      setParts(parts.sort(SortArrayPrice));
+      setParts(categoryParts.sort(SortArrayPrice));
       setSort(2)
-      console.log(sort)
     } else{
-      setParts(parts.sort(SortArrayAlphaCompany));
+      setParts(categoryParts.sort(SortArrayAlphaCompany));
       setSort(3)
-      console.log(sort)
     }
   }
-
-  const router = useRouter()
-  const {category} = (router.query)
-  const [parts, setParts] = useState([])
 
   useEffect(()=> {
     console.log('refresh')
-    if(parts.length==0){load()}
   },[sort])
-
-  async function load(){
-    const REALM_APP_ID = "partsshop-iqmiv";
-    const app = new Realm.App({id: REALM_APP_ID});
-    const credentials = Realm.Credentials.anonymous()
-    try{
-      const user = await app.logIn(credentials);
-      // @ts-ignore
-      await setParts(await user.functions.getAllProducts());
-    } catch (error){
-      console.error(error)
-    }
-  }
   return (
     <div className="bg-white">
       <Navbar />
@@ -76,21 +78,20 @@ const Category = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty kategorii: {category}</h2>
         <div>Opcje filtrowania:  <button className="border-solid border-4 rounded-full px-2 border-b-amber-500" onClick={()=>{
           sortParts(1)
-        }}>alfabetycznie</button>
+        }} >alfabetycznie</button>
           <button className="border-solid border-4 rounded-full px-2 border-b-amber-500" onClick={()=>{
             sortParts(2)
-          }}>cenowo</button>
+          }} >cenowo</button>
           <button className="border-solid border-4 rounded-full px-2 border-b-amber-500" onClick={()=>{
             sortParts(3)
-          }}>marki alfabetycznie</button>
+          }} >marki alfabetycznie</button>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {parts.map((product) => (
-            category == product.category ?
+          {categoryParts && categoryParts.map((product) => (
               <Link href={{
                 pathname: 'part',
                 query: 'id='+ product.id }} key={product.id}>
-                <div className="group relative">
+                <div className="group relative" key={product.id}>
                   <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                     <img className="w-full h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />
                   </div>
@@ -107,9 +108,7 @@ const Category = () => {
                     <p className="text-sm font-medium text-gray-900">{product.price}</p>
                   </div>
                 </div>
-              </Link> : (
-                false
-              )
+              </Link>
           ))}
         </div>
         </div>
