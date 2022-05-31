@@ -8,6 +8,7 @@ export const FIND_PART = gql`
   query FindPart($query: PartQueryInput!) {
     part(query: $query) {
       _id
+        id
       name
       price
       image

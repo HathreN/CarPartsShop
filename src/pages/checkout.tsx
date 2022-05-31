@@ -2,25 +2,40 @@ import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import { imageUrl } from '@/utils/Image';
 import { useEffect, useState } from 'react';
-import * as Realm from 'realm-web';
-import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
+import {LocalStorageCart, LocalStorageItem } from '@/pages/part';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 let products = [
 ]
+export const FIND_ALL_PARTS = gql`
+    query FindAllParts($query: PartQueryInput!) {
+        parts(query: $query) {
+            _id
+            id
+            name
+            price
+            image
+            carBrand
+        }
+    }
+`;
 const Checkout = () => {
+  const { loading, data } = useQuery(FIND_ALL_PARTS, {
+    variables: { query: {}  }
+  });
+  const parts = data ? data.parts : null;
+  console.log(JSON.stringify(parts))
 
   const router = useRouter()
-  const [parts, setParts] = useState([])
   let [cartLength,setCartLength] = useState(0);
   useEffect(()=> {
-    console.log(cartLength);
-    if(products.length==0){load()}
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
     const cart: LocalStorageCart = JSON.parse(itemJSONData);
     if(cart.items.length==0){
       location.href = "/";
     }
     setCartLength(cart.items.length)
-    console.log(cartLength)
+    console.log(parts)
     let i :number = 0;
     cart.items.forEach((item: LocalStorageItem) => {
       products[i] = item
@@ -28,17 +43,6 @@ const Checkout = () => {
     })
   },[cartLength])
 
-  async function load(){
-    const REALM_APP_ID = "partsshop-iqmiv";
-    const app = new Realm.App({id: REALM_APP_ID});
-    const credentials = Realm.Credentials.anonymous()
-    try{
-      const user = await app.logIn(credentials);
-      await setParts(await user.functions.getAllParts());
-    } catch (error){
-      console.error(error)
-    }
-  }
 
   let priceTotal: number = 0;
   function found (id: number) {
@@ -64,7 +68,7 @@ const Checkout = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty znajdujące się w twoim koszyku</h2>
 
         <div className="mt-6 gap-y-10 gap-x-6 xl:gap-x-8">
-          {parts.map((product) => (
+          {parts && parts.map((product) => (
             found(product.id) && (
               <div key={product.id} className="flex flex-row py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">

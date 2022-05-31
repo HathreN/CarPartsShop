@@ -1,40 +1,48 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ShoppingBagIcon } from '@heroicons/react/solid';
 import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
 import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
-import * as Realm from 'realm-web';
+import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
 
 let products = [
 ]
-function refreshCart(){
-  const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
-  const cart: LocalStorageCart = JSON.parse(itemJSONData);
-  let i :number = 0;
-  cart.items.forEach((item: LocalStorageItem) => {
-    products[i] = item
-    i++;
-  })
-}
+export const FIND_ALL_PARTS = gql`
+    query FindAllParts($query: PartQueryInput!) {
+        parts(query: $query) {
+            _id
+            id
+            name
+            price
+            image
+            link
+            carBrand
+            amount
+        }
+    }
+`;
 export default function ShoppingCart() {
+  const { loading, data } = useQuery(FIND_ALL_PARTS, {
+    variables: { query: {}  }
+  });
+  const parts = data ? data.parts : null;
+  const [partsList, setPartsList] = useState([])
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const [parts, setParts] = useState([])
-  useEffect(()=> {
-    load()
-  },[])
-  async function load(){
-    const REALM_APP_ID = "partsshop-iqmiv";
-    const app = new Realm.App({id: REALM_APP_ID});
-    const credentials = Realm.Credentials.anonymous()
-    try{
-      const user = await app.logIn(credentials);
-      await setParts(await user.functions.getAllParts());
-    } catch (error){
-      console.error(error)
-    }
+
+  function refreshCart(){
+    setPartsList(parts)
+    console.log('refresh')
+    const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
+    const cart: LocalStorageCart = JSON.parse(itemJSONData);
+    let i :number = 0;
+    cart.items.forEach((item: LocalStorageItem) => {
+      products[i] = item
+      i++;
+    })
   }
 
 
@@ -47,7 +55,8 @@ export default function ShoppingCart() {
     products.find((obj) => {
       if ((obj.id==id)==true){
         check= true;
-        parts[id-1].amount = obj.amount;
+        console.log(parts[id-1].amount + ' ' + obj.amount)
+        parts[id-1].amount = obj.amount
         priceTotal += parts[id-1].price*obj.amount;
       } else {
         check = false;
@@ -107,7 +116,7 @@ export default function ShoppingCart() {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {parts.map((product) => (
+                            {parts && partsList.map((product,index) => (
                               found(product.id) && (
                               <li key={product.id} className="flex py-6">
                               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
