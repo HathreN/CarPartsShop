@@ -19,6 +19,7 @@ export const FIND_ALL_PARTS = gql`
         }
     }
 `;
+let carParts = []
 const Checkout = () => {
   const { loading, data } = useQuery(FIND_ALL_PARTS, {
     variables: { query: {}  }
@@ -43,14 +44,16 @@ const Checkout = () => {
     })
   },[cartLength])
 
-
+  let i: number = 0;
   let priceTotal: number = 0;
   function found (id: number) {
     let check: boolean =false;
     products.find((obj) => {
       if ((obj.id==id)==true){
         check= true;
-        parts[id-1].amount = obj.amount;
+        let tempPart = Object.freeze(parts[id - 1]);
+        tempPart = { id: tempPart.id, name: tempPart.name, price: tempPart.price, image: tempPart.image, link: tempPart.link, carBrand: tempPart.carBrand, amount: obj.amount };
+        carParts[i] = tempPart;
         priceTotal += parts[id-1].price*obj.amount;
       } else {
         check = false;
@@ -86,7 +89,7 @@ const Checkout = () => {
                     <p className="mt-1 text-sm text-gray-500">{product.carBrand}</p>
                   </div>
                   <div className="flex flex-1 items-end justify-between text-sm">
-                    <p className="text-gray-500">Ilość produktów: {product.amount}</p>
+                    <p className="text-gray-500">Ilość produktów: {carParts[i].amount}</p>
 
                     <div className="flex">
                       <button

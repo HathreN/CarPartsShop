@@ -28,7 +28,7 @@ const Category = () => {
   });
   const categoryParts = data ? data.parts : null;
   console.log(JSON.stringify(categoryParts))
-  console.log(loading)
+
   const [sort,setSort] = useState(0)
   function sortParts(variant: number){
     function SortArrayAlpha(x, y){
@@ -43,20 +43,7 @@ const Category = () => {
       if (x.carBrand < y.carBrand) {return -1;}
       if (x.carBrand > y.carBrand) {return 1;}
       return 0;
-    } function SortArrayAlphab(x, y){
-      if (x.name > y.name) {return -1;}
-      if (x.name < y.name) {return 1;}
-      return 0;
-    } function SortArrayPriceb(x, y){
-      if (x.price > y.price) {return -1;}
-      if (x.price < y.price) {return 1;}
-      return 0;
-    } function SortArrayAlphaCompanyb(x, y){
-      if (x.carBrand > y.carBrand) {return -1;}
-      if (x.carBrand < y.carBrand) {return 1;}
-      return 0;
-    }
-    if(variant==1){
+    } if(variant==1){
      setParts(categoryParts.sort(SortArrayAlpha));
       setSort(1)
     } else if( variant==2){
@@ -91,9 +78,9 @@ const Category = () => {
               <Link href={{
                 pathname: 'part',
                 query: 'id='+ product.id }} key={product.id}>
-                <div className="group relative" key={product.id}>
+                <div className="group relative border-solid border-2 border-b-amber-500 px-5" key={product.id}>
                   <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                    <img className="w-full h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />
+                    <img className="h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />
                   </div>
                   <div className="mt-4 flex justify-between">
                     <div>
