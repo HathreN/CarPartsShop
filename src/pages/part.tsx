@@ -30,12 +30,11 @@ const Part = () => {
   let {id} = (router.query)
 
 
-  const { loading, data } = useQuery(FIND_PART, {
+  const { loading, data } = useQuery<LocalStorageItem>(FIND_PART, {
     variables: { query: {id: id}  }
   });
   const part = data ? data.part : null;
   console.log(JSON.stringify(part))
-
 
   function handleSubmit(id: number) {
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
