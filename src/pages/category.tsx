@@ -8,8 +8,8 @@ import gql from 'graphql-tag';
 import { CategoryPart } from '@/types_realm';
 
 export const FIND_CATEGORY_PARTS = gql`
-    query FindCategoryParts($query: PartQueryInput!) {
-        parts(query: $query) {
+    query FindCategoryParts($query: PartQueryInput!, $sortBy: PartSortByInput) {
+        parts(query: $query, sortBy: $sortBy) {
             _id
             id
             name
@@ -28,47 +28,29 @@ const Category = () => {
   const { loading, data } = useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
     variables: { query: { category: category } }
   });
-  const categoryParts = data ? data.parts : null;
+  let categoryParts = data ? data.parts : null;
   const [sort, setSort] = useState(0);
   function sortParts(variant: number) {
-    // function SortArrayAlpha(x, y) {
-    //   if (x.name < y.name) {
-    //     return -1;
-    //   }
-    //   if (x.name > y.name) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    //
-    // function SortArrayPrice(x, y) {
-    //   if (x.price < y.price) {
-    //     return -1;
-    //   }
-    //   if (x.price > y.price) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    //
-    // function SortArrayAlphaCompany(x, y) {
-    //   if (x.carBrand < y.carBrand) {
-    //     return -1;
-    //   }
-    //   if (x.carBrand > y.carBrand) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    //
+
+
     // if (variant == 1) {
-    //   setParts(categoryParts.sort(SortArrayAlpha));
+    //   const dataName =  useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
+    //     variables: { query: { category: category}, sortBy: 'PRICE_ASC' }
+    //   });
+    //   categoryParts = dataName ? dataName.parts : null;
     //   setSort(1);
+    //
     // } else if (variant == 2) {
-    //   setParts(categoryParts.sort(SortArrayPrice));
+    //   const dataPrice =  useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
+    //     variables: { query: { category: category}, sortBy: 'PRICE_ASC' }
+    //   });
+    //   categoryParts = dataPrice ? dataPrice.parts : null;
     //   setSort(2);
     // } else {
-    //   setParts(categoryParts.sort(SortArrayAlphaCompany));
+    //   const dataCarBrand =  useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
+    //     variables: { query: { category: category}, sortBy: 'CARBRAND_ASC' }
+    //   });
+    //   categoryParts = dataCarBrand ? dataCarBrand.parts : null;
     //   setSort(3);
     // }
   }
@@ -108,13 +90,7 @@ const Category = () => {
                 </div>
                 <div className='mt-4 flex justify-between'>
                   <div>
-                    <h3 className='text-sm text-gray-700'>
-                      {/*<a href={product.href}>*/}
-                      {/*  <span aria-hidden="true" className="absolute inset-0" />*/}
                       {product.name}
-                      {/*</a>*/}
-                    </h3>
-                    {/*<p className="mt-1 text-sm text-gray-500">{product.color}</p>*/}
                   </div>
                   <p className='text-sm font-medium text-gray-900'>{product.price}</p>
                 </div>

@@ -24,13 +24,25 @@ export const FIND_ALL_PARTS = gql`
     }
 `;
 let carParts = [];
+
+let queryList = [];
 export default function ShoppingCart() {
+
+  const [open, setOpen] = useState(false);
+  if (open) {
+    queryList= []
+    refreshCart();
+    products.forEach((product) => {
+      queryList.push(product.id)
+      console.log("["+queryList+"]")
+    })
+  }
   const { loading, data } = useQuery(FIND_ALL_PARTS, {
-    variables: { query: {} }
+    variables: { query: {id_in: queryList} }
   });
   const parts = data ? data.parts : null;
+  console.log(parts)
   const router = useRouter();
-  const [open, setOpen] = useState(false);
 
   function refreshCart() {
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
@@ -41,9 +53,6 @@ export default function ShoppingCart() {
       i++;
     });
   }
-  if (open) {
-    refreshCart();
-  }
   let priceTotal: number = 0;
 
     let i: number = 0;
@@ -52,7 +61,7 @@ export default function ShoppingCart() {
     products.find((obj) => {
       if ((obj.id == id) == true) {
         check = true;
-        let tempPart = Object.freeze(parts[id - 1]);
+        let tempPart = Object.freeze(parts[id-1]);
         tempPart = { id: tempPart.id, name: tempPart.name, price: tempPart.price, image: tempPart.image, link: tempPart.link, carBrand: tempPart.carBrand, amount: obj.amount };
         carParts[i] = tempPart;
         i++;
@@ -118,7 +127,6 @@ export default function ShoppingCart() {
                           <div className='flow-root'>
                             <ul role='list' className='-my-6 divide-y divide-gray-200'>
                               {parts && parts.map((product, index) => (
-                                found(product.id) && (
                                   <li key={product.id} className='flex py-6'>
                                     <div
                                       className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
@@ -150,7 +158,6 @@ export default function ShoppingCart() {
                                       </div>
                                     </div>
                                   </li>
-                                )
                               ))}
                             </ul>
                           </div>
