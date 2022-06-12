@@ -1,5 +1,6 @@
 funkcjonalne:
--sortowanie odbywające się na poziomie graphqla
+-sortowanie odbywające się na poziomie graphqla - DONE
+-query na pobieranie rzeczy tylko z koszyka( kategorii wybranej) - DONE
 -wyszukiwanie po nazwie(input)
 -przerobic strone z /part/?id=6 na /part/6(next routing)
 -otypować wszystkie useQuery<typ>()
@@ -7,7 +8,6 @@ funkcjonalne:
     -addToCart(itemId)
     -getCartItemsIds
     reactCustomHook https://pl.reactjs.org/docs/hooks-custom.html
--query na pobieranie rzeczy tylko z koszyka( kategorii wybranej)
 -zamowienia danego klienta
     -listowanie zamowien i ograniczenie podgladu na poziomie realma(orgraniczenia po id)
     -realizacja zamowienia po kliknieciu w przycisk
@@ -16,16 +16,16 @@ funkcjonalne:
 
 
 dobre praktyki:
+-jezeli nie ma danych powinno być wypisane brak danych - DONE
+-jak jest error w apollo to trzeba go wypisywać - DONE
+-a zamienić na Link(tylko do stron które są w środku projektu) - DONE
 -zrobienie layoutu(main)
     - navbar
 -Meta
 -svg(wyjaśnienie)
--a zamienić na Link(tylko do stron które są w środku projektu
 -wszystko co jest iterowane powinno mieć własny komponent
--jezeli nie ma danych powinno być wypisane brak danych
--jak jest error w apollo to trzeba go wypisywać
 -dzielenie komponentów na mniejsze komponenty(wewnątrz)
--wydzielanie fukncji i nazywaanie jej zastosowania
+-wydzielanie funkcji i nazywanie jej zastosowania
 
 
 

@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 
-let products = [];
+let products:object = [];
 export const FIND_ALL_PARTS = gql`
     query FindAllParts($query: PartQueryInput!) {
         parts(query: $query) {
@@ -23,15 +23,18 @@ export const FIND_ALL_PARTS = gql`
         }
     }
 `;
-let carParts = [];
+let carParts:object = [];
 
+// @ts-ignore
 let queryList = [];
 export default function ShoppingCart() {
 
+  let priceTotal: number = 0;
   const [open, setOpen] = useState(false);
   if (open) {
     queryList= []
     refreshCart();
+    // @ts-ignore
     products.forEach((product) => {
       queryList.push(product.id)
       console.log("["+queryList+"]")
@@ -41,8 +44,31 @@ export default function ShoppingCart() {
     variables: { query: {id_in: queryList} }
   });
   const parts = data ? data.parts : null;
-  console.log(parts)
   const router = useRouter();
+  let index: number =0;
+  function SortArrayAlpha(x, y){
+    if (x.id < y.id) {return -1;}
+    if (x.id > y.id) {return 1;}
+    return 0;
+  }
+  if(!loading) {
+    products.sort((SortArrayAlpha))
+    products.forEach((product) => {
+      let tempPart = Object.freeze(parts[index]);
+      tempPart = {
+        id: tempPart.id,
+        name: tempPart.name,
+        price: tempPart.price,
+        image: tempPart.image,
+        link: tempPart.link,
+        carBrand: tempPart.carBrand,
+        amount: product.amount
+      };
+      carParts[index] = tempPart;
+      priceTotal += parts[index].price * products[index].amount;
+      index++
+    })
+  }
 
   function refreshCart() {
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
@@ -53,26 +79,8 @@ export default function ShoppingCart() {
       i++;
     });
   }
-  let priceTotal: number = 0;
 
-    let i: number = 0;
-  function found(id: number) {
-    let check: boolean = false;
-    products.find((obj) => {
-      if ((obj.id == id) == true) {
-        check = true;
-        let tempPart = Object.freeze(parts[id-1]);
-        tempPart = { id: tempPart.id, name: tempPart.name, price: tempPart.price, image: tempPart.image, link: tempPart.link, carBrand: tempPart.carBrand, amount: obj.amount };
-        carParts[i] = tempPart;
-        i++;
-        priceTotal += parts[id - 1].price * obj.amount;
-      } else {
-        check = false;
-      }
-      return obj.id == id;
-    });
-    return check;
-  };
+
   return (
     <div>
       <div>
@@ -145,7 +153,7 @@ export default function ShoppingCart() {
                                         <p className='mt-1 text-sm text-gray-500'>{product.carBrand}</p>
                                       </div>
                                       <div className='flex flex-1 items-end justify-between text-sm'>
-                                        <p className='text-gray-500'>Amount: {carParts[i-1].amount}</p>
+                                        <p className='text-gray-500'>Amount: {carParts[index].amount}</p>
 
                                         <div className='flex'>
                                           <button
