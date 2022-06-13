@@ -10,6 +10,7 @@ export const FIND_PART = gql`
       _id
         id
       name
+        category
       price
       image
       carBrand
@@ -64,20 +65,23 @@ const Part = () => {
             { part &&
               <li key={part.id}>
                 <div className="flex items-center">
-                  {part.name}
+                  {part.category}
+                  {/*category / part navigation*/}
                   <svg
                     width={16}
-                    height={20}
+                    height={150}
                     viewBox="0 0 16 20"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
-                    className="w-4 h-5 text-gray-300"
+                    className=" text-blue-500"
                   >
                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+
                   </svg>
+                  {part.name}
                 </div>
-                <div className="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+                <div className="max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
                   <div className="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
                     <img className="w-full h-full object-center object-cover" src={imageUrl(router, part.image)}
                          alt={part.name} />

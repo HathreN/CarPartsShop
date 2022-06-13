@@ -19,10 +19,10 @@ dobre praktyki:
 -jezeli nie ma danych powinno być wypisane brak danych - DONE
 -jak jest error w apollo to trzeba go wypisywać - DONE
 -a zamienić na Link(tylko do stron które są w środku projektu) - DONE
+-svg(wyjaśnienie) - Done
 -zrobienie layoutu(main)
     - navbar
 -Meta
--svg(wyjaśnienie)
 -wszystko co jest iterowane powinno mieć własny komponent
 -dzielenie komponentów na mniejsze komponenty(wewnątrz)
 -wydzielanie funkcji i nazywanie jej zastosowania
