@@ -28,8 +28,7 @@ export interface LocalStorageCart {
 
 const Part = () => {
   const router = useRouter()
-  let {id} = (router.query)
-
+  let {id}= router.query;
 
   const { loading, data } = useQuery<LocalStorageItem>(FIND_PART, {
     variables: { query: {id: id}  }

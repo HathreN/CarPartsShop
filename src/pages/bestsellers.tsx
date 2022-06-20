@@ -2,27 +2,29 @@ import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { imageUrl } from '@/utils/Image';
-import { useEffect, useState } from 'react';
-import * as Realm from 'realm-web';
+import { useState } from 'react';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { Bestsellers, Categories } from '@/types_realm';
 
+export const FIND_BESTSELLERS = gql`
+    query {
+        parts (sortBy: ID_ASC ){
+            _id
+            id
+            name
+            price
+            image
+        }
+    }
+`;
 const Bestsellers = () => {
   const router = useRouter()
-  const [parts, setParts] = useState([])
-  useEffect(()=> {
-    load()
-  },[])
-  async function load(){
-    const REALM_APP_ID = "partsshop-iqmiv";
-    const app = new Realm.App({id: REALM_APP_ID});
-    const credentials = Realm.Credentials.anonymous()
-    try{
-      const user = await app.logIn(credentials);
-      // @ts-ignore
-      await setParts(await user.functions.getAllParts());
-    } catch (error){
-      console.error(error)
-    }
-  }
+  const { loading, data, error } = useQuery<{ parts: Bestsellers[] }>(FIND_BESTSELLERS, {
+    variables: { query: { } }
+  });
+  const bestsellers = data ? data.parts : null;
+
   return (
     <div className="bg-white">
       <Navbar />
@@ -30,8 +32,8 @@ const Bestsellers = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty kupowane najczęściej</h2>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {parts.map((product) => (
-              <Link href={{
+          {!loading && bestsellers.map((product) => (
+              <Link prefetch as={`/part/${product.id}`} href={{
                 pathname: 'part',
                 query: 'id='+ product.id }} key={product.id}>
                 <div className="group relative">

@@ -4,9 +4,11 @@ import { imageUrl } from '@/utils/Image';
 import { useEffect, useState } from 'react';
 import {LocalStorageCart, LocalStorageItem } from '@/pages/part';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-let products = [
-]
+import { useMutation, useQuery } from '@apollo/client';
+import Link from 'next/link';
+let products: object = []
+let partsList: []=[]
+let carParts: object = []
 export const FIND_ALL_PARTS = gql`
     query FindAllParts($query: PartQueryInput!) {
         parts(query: $query) {
@@ -15,18 +17,24 @@ export const FIND_ALL_PARTS = gql`
             name
             price
             image
+            link
             carBrand
+            amount
         }
     }
 `;
-let carParts = []
-const Checkout = () => {
-  const { loading, data } = useQuery(FIND_ALL_PARTS, {
-    variables: { query: {}  }
-  });
-  const parts = data ? data.parts : null;
-  console.log(JSON.stringify(parts))
+export const INSERT_SHOPPING_CART = gql`
+    mutation ($orderPrice: Int, $parts: [String]){
+        insertOneOrder(data: { id: 1,orderPrice: $orderPrice ,parts: $parts,userName:"test2" }){
+            id
+            orderPrice
+            parts
+            userName
+        }
+    }
+`;
 
+const Checkout = () => {
   const router = useRouter()
   let [cartLength,setCartLength] = useState(0);
   useEffect(()=> {
@@ -36,33 +44,53 @@ const Checkout = () => {
       location.href = "/";
     }
     setCartLength(cart.items.length)
-    console.log(parts)
     let i :number = 0;
+    partsList=[]
     cart.items.forEach((item: LocalStorageItem) => {
       products[i] = item
       i++;
     })
-  },[cartLength])
-
-  let i: number = 0;
-  let priceTotal: number = 0;
-  function found (id: number) {
-    let check: boolean =false;
-    products.find((obj) => {
-      if ((obj.id==id)==true){
-        check= true;
-        let tempPart = Object.freeze(parts[id - 1]);
-        tempPart = { id: tempPart.id, name: tempPart.name, price: tempPart.price, image: tempPart.image, link: tempPart.link, carBrand: tempPart.carBrand, amount: obj.amount };
-        carParts[i] = tempPart;
-        priceTotal += parts[id-1].price*obj.amount;
-      } else {
-        check = false;
-      }
-      return obj.id == id;
+    products.forEach((product) => {
+      partsList.push(product.id)
     })
-    return check
-  };
+  },[cartLength])
+  const { loading, data } = useQuery(FIND_ALL_PARTS, {
+    variables: { query: {id_in: partsList} }
+  });
+  const parts = data ? data.parts : null;
+  let index: number =0;
+  let priceTotal: number = 0;
+  function SortArrayAlpha(x, y){
+    if (x.id < y.id) {return -1;}
+    if (x.id > y.id) {return 1;}
+    return 0;
+  }
+  if(!loading) {
+    products.sort((SortArrayAlpha))
+    products.forEach((product) => {
+      let tempPart = Object.freeze(parts[index]);
+      tempPart = {
+        id: tempPart.id,
+        name: tempPart.name,
+        price: tempPart.price,
+        image: tempPart.image,
+        link: tempPart.link,
+        carBrand: tempPart.carBrand,
+        amount: product.amount
+      };
+      carParts[index] = tempPart;
+      priceTotal += parts[index].price * products[index].amount;
+      index++
+    })
+  }
 
+  const [placeOrderInDB, { loading: updating }] = useMutation(INSERT_SHOPPING_CART);
+
+  const placeOrder = async () => {
+    await placeOrderInDB({
+      variables: { orderPrice: priceTotal, parts: partsList},
+    });
+  }
 
   return (
     <div className="bg-white">
@@ -71,8 +99,7 @@ const Checkout = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty znajdujące się w twoim koszyku</h2>
 
         <div className="mt-6 gap-y-10 gap-x-6 xl:gap-x-8">
-          {parts && parts.map((product) => (
-            found(product.id) && (
+          {!loading && parts.map((product) => (
               <div key={product.id} className="flex flex-row py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img className="w-full h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />
@@ -89,7 +116,7 @@ const Checkout = () => {
                     <p className="mt-1 text-sm text-gray-500">{product.carBrand}</p>
                   </div>
                   <div className="flex flex-1 items-end justify-between text-sm">
-                    <p className="text-gray-500">Ilość produktów: {carParts[i].amount}</p>
+                    <p className="text-gray-500">Ilość produktów: {carParts[index]?.amount}</p>
 
                     <div className="flex">
                       <button
@@ -127,7 +154,6 @@ const Checkout = () => {
                   </div>
                 </div>
               </div>
-            )
           ))}
           <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
             <div className="flex justify-between text-base font-medium text-gray-900">
@@ -135,14 +161,15 @@ const Checkout = () => {
               <p>{priceTotal + ' zł'}</p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">Koszty dostawy i podatek naliczany przy płatności.</p>
-            <div className="mt-6">
-              <a
-                href="/payment"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-              >
-                Przejdź do płatności
-              </a>
-            </div>
+            <Link
+              href="/"
+            >
+              <div className="flex items-center justify-center rounded-md text-test-1 border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                   onClick={() => {placeOrder()}}>
+                <h1 className="text-black">
+                  Przejdź do płatności</h1>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

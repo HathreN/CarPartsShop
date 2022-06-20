@@ -37,7 +37,6 @@ export default function ShoppingCart() {
     // @ts-ignore
     products.forEach((product) => {
       queryList.push(product.id)
-      console.log("["+queryList+"]")
     })
   }
   const { loading, data } = useQuery(FIND_ALL_PARTS, {

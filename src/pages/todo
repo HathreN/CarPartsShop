@@ -1,9 +1,9 @@
 funkcjonalne:
 -sortowanie odbywające się na poziomie graphqla - DONE
 -query na pobieranie rzeczy tylko z koszyka( kategorii wybranej) - DONE
--wyszukiwanie po nazwie(input)
--przerobic strone z /part/?id=6 na /part/6(next routing)
--otypować wszystkie useQuery<typ>()
+-wyszukiwanie po nazwie(input) - DONE
+-przerobic strone z /part/?id=6 na /part/6(next routing) - DONE
+-otypować wszystkie useQuery<typ>() - DONE
 -hook/komponent useCart który wystwia metody
     -addToCart(itemId)
     -getCartItemsIds

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import { useQuery } from '@apollo/client';
 import * as React from 'react';
 import gql from 'graphql-tag';
+import { Categories } from '@/types_realm';
 
 export const FIND_CATEGORIES = gql`
     query {
@@ -20,7 +21,7 @@ export const FIND_CATEGORIES = gql`
 `;
 const Categories = () => {
 
-  const { loading, data, error } = useQuery(FIND_CATEGORIES, {
+  const { loading, data, error } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
     variables: { query: { name: 'wnetrze' } }
   });
   const category = data ? data.categories : null;
@@ -36,10 +37,9 @@ const Categories = () => {
           !category && <div className='status'>Loading</div>)}
 
           {category && category.map((singleCategory) => (
-            <Link href={{
-              pathname: '/category',
-              query: singleCategory.category
-            }} key={singleCategory.id}>
+            <Link prefetch as={`category/${singleCategory.category}`} href={{
+              pathname: 'category',
+              query: 'category=' + singleCategory.category }} key={singleCategory.id}>
               <div className='group relative flex flex-col items-center justify-center'>
                 <div
                   className='w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none'>

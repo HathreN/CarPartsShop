@@ -24,7 +24,8 @@ export const FIND_CATEGORY_PARTS = gql`
 const Category = () => {
 
   const router = useRouter();
-  const { category } = (router.query);
+  const { category } = router.query;
+  console.log(category)
   const { loading, data } = useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
     variables: { query: { category: category } }
   });
@@ -77,8 +78,8 @@ const Category = () => {
           </button>
         </div>
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-          {categoryParts && categoryParts.map((product) => (
-            <Link href={{
+          {!loading && categoryParts.map((product) => (
+            <Link prefetch as={`/part/${product.id}`} href={{
               pathname: 'part',
               query: 'id=' + product.id
             }} key={product.id}>
