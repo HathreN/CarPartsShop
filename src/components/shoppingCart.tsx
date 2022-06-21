@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 let products:object = [];
 export const FIND_ALL_PARTS = gql`
     query FindAllParts($query: PartQueryInput!) {
-        parts(query: $query) {
+        parts(sortBy: ID_ASC,query: $query) {
             _id
             id
             name
@@ -48,10 +48,11 @@ export default function ShoppingCart() {
   function SortArrayAlpha(x, y){
     if (x.id < y.id) {return -1;}
     if (x.id > y.id) {return 1;}
+    console.log(x.id > y.id)
     return 0;
   }
   if(!loading) {
-    products.sort((SortArrayAlpha))
+    products.sort(SortArrayAlpha)
     products.forEach((product) => {
       let tempPart = Object.freeze(parts[index]);
       tempPart = {

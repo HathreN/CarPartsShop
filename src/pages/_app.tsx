@@ -3,8 +3,8 @@ import '../styles/global.css';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import type { AppProps } from 'next/app';
 import { UserProvider } from '@auth0/nextjs-auth0';
-import { login } from '@/pages/data';
 import React from "react";
+import {Meta} from '@/layouts/Meta'
 import {
   ApolloProvider,
   ApolloClient,
@@ -14,6 +14,7 @@ import {
 
 import * as Realm from "realm-web";
 
+export let user;
 export const APP_ID = "partsshop-iqmiv";
 const app = new Realm.App(APP_ID);
 
@@ -38,12 +39,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-login()
-
+  const credentials = Realm.Credentials.anonymous();
+  try {
+    user = await app.logIn(credentials);
+    localStorage.setItem('UID', user.id)
+    console.log('user zapisany')
+  } catch (err) {
+    console.error('Failed to log in', err);
+  }
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <UserProvider>
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <Meta title='CarPartsShop' description='Internetowy sklep dla twojego projektu motorsportowego'/>
+      <Component {...pageProps}/>
     </ApolloProvider>
   </UserProvider>
 

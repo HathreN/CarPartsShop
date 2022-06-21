@@ -11,7 +11,7 @@ let partsList: []=[]
 let carParts: object = []
 export const FIND_ALL_PARTS = gql`
     query FindAllParts($query: PartQueryInput!) {
-        parts(query: $query) {
+        parts(sortBy: ID_ASC,query: $query) {
             _id
             id
             name
@@ -88,7 +88,7 @@ const Checkout = () => {
 
   const placeOrder = async () => {
     await placeOrderInDB({
-      variables: { orderPrice: priceTotal, parts: partsList},
+      variables: { orderPrice: priceTotal, parts: {products}},
     });
   }
 
@@ -99,7 +99,7 @@ const Checkout = () => {
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty znajdujące się w twoim koszyku</h2>
 
         <div className="mt-6 gap-y-10 gap-x-6 xl:gap-x-8">
-          {!loading && parts.map((product) => (
+          {!loading && parts.map((product,index) => (
               <div key={product.id} className="flex flex-row py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img className="w-full h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />

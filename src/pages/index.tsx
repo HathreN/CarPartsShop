@@ -1,6 +1,7 @@
 import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
+import React from 'react';
 
 const Index = () => {
   const router = useRouter();

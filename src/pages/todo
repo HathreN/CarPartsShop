@@ -10,7 +10,7 @@ funkcjonalne:
     reactCustomHook https://pl.reactjs.org/docs/hooks-custom.html
 -zamowienia danego klienta
     -listowanie zamowien i ograniczenie podgladu na poziomie realma(orgraniczenia po id)
-    -realizacja zamowienia po kliknieciu w przycisk
+    -realizacja zamowienia po kliknieciu w przycisk - PARTIALLY DONE
 
 
 
@@ -20,9 +20,9 @@ dobre praktyki:
 -jak jest error w apollo to trzeba go wypisywać - DONE
 -a zamienić na Link(tylko do stron które są w środku projektu) - DONE
 -svg(wyjaśnienie) - Done
+-Meta - DONE
 -zrobienie layoutu(main)
     - navbar
--Meta
 -wszystko co jest iterowane powinno mieć własny komponent
 -dzielenie komponentów na mniejsze komponenty(wewnątrz)
 -wydzielanie funkcji i nazywanie jej zastosowania
