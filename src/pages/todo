@@ -1,4 +1,5 @@
 funkcjonalne:
+
 -sortowanie odbywające się na poziomie graphqla - DONE
 -query na pobieranie rzeczy tylko z koszyka( kategorii wybranej) - DONE
 -wyszukiwanie po nazwie(input) - DONE
@@ -10,12 +11,11 @@ funkcjonalne:
     reactCustomHook https://pl.reactjs.org/docs/hooks-custom.html
 -zamowienia danego klienta
     -listowanie zamowien i ograniczenie podgladu na poziomie realma(orgraniczenia po id)
-    -realizacja zamowienia po kliknieciu w przycisk - PARTIALLY DONE
+    -realizacja zamowienia po kliknieciu w przycisk - 50% DONE
 
-
-
-
+---------------------------------------------------------------------------------------------------
 dobre praktyki:
+
 -jezeli nie ma danych powinno być wypisane brak danych - DONE
 -jak jest error w apollo to trzeba go wypisywać - DONE
 -a zamienić na Link(tylko do stron które są w środku projektu) - DONE
@@ -27,13 +27,20 @@ dobre praktyki:
 -dzielenie komponentów na mniejsze komponenty(wewnątrz)
 -wydzielanie funkcji i nazywanie jej zastosowania
 
-
-
-
-
-
+---------------------------------------------------------------------------------------------------
 stylistyczne:
--Loading
+
+-Loading - DONE
 -wydzielenie wystylizowanych komponentow(button od akcji, formularze, przyciski itd)
 -index
 -MUI
+
+Szanowny Panie Doktorze,
+
+
+Mam pytanie odnośnie promotorstwa ponieważ należę do grona osób które dalej nie mają promotora, mam pytanie czy projekt "Analiza i porównanie wybranych stosów technologicznych na przykładzie pewnej aplikacji klient-serwer" jest przez kogoś zajęty i jeśli nie to czy mogę się do niego zapisać?
+
+
+Z wyrazami szacunku,
+
+Kacper Dąbrowa

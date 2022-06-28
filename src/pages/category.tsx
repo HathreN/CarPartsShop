@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { CategoryPart } from '@/types_realm';
+import LoadingOverlay from '@/components/LoadingOverlay';
+import SingleProductIcon from '@/components/SingleProductIcon';
 
 export const FIND_CATEGORY_PARTS = gql`
     query FindCategoryParts($query: PartQueryInput!, $sortBy: PartSortByInput) {
@@ -79,25 +81,10 @@ const Category = () => {
         </div>
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
           {!loading && categoryParts.map((product) => (
-            <Link prefetch as={`/part/${product.id}`} href={{
-              pathname: 'part',
-              query: 'id=' + product.id
-            }} key={product.id}>
-              <div className='group relative border-solid border-2 border-b-amber-500 px-5' key={product.id}>
-                <div
-                  className='w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none'>
-                  <img className='h-full object-center object-cover' src={imageUrl(router, product.image)}
-                       alt={product.name} />
-                </div>
-                <div className='mt-4 flex justify-between'>
-                  <div>
-                      {product.name}
-                  </div>
-                  <p className='text-sm font-medium text-gray-900'>{product.price}</p>
-                </div>
-              </div>
-            </Link>
+            <SingleProductIcon product={product}/>
           ))}
+          {loading &&
+            <LoadingOverlay />}
         </div>
       </div>
     </div>

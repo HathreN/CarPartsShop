@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 export const FIND_PART = gql`
   query FindPart($query: PartQueryInput!) {
@@ -61,7 +62,7 @@ const Part = () => {
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol role="list" className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8">
-            { part &&
+            { !loading &&
               <li key={part.id}>
                 <div className="flex items-center">
                   {part.category}
@@ -129,6 +130,8 @@ const Part = () => {
                 </div>
               </li>
             }
+            {loading &&
+              <LoadingOverlay />}
           </ol>
         </nav>
 

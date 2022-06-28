@@ -7,6 +7,7 @@ import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import ShoppingCartProduct from '@/components/ShoppingCartProduct';
 
 let products:object = [];
 export const FIND_ALL_PARTS = gql`
@@ -135,37 +136,7 @@ export default function ShoppingCart() {
                           <div className='flow-root'>
                             <ul role='list' className='-my-6 divide-y divide-gray-200'>
                               {parts && parts.map((product, index) => (
-                                  <li key={product.id} className='flex py-6'>
-                                    <div
-                                      className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
-                                      <img className='w-full h-full object-center object-cover'
-                                           src={imageUrl(router, product.image)} alt={product.name} />
-                                    </div>
-
-                                    <div className='ml-4 flex flex-1 flex-col'>
-                                      <div>
-                                        <div className='flex justify-between text-base font-medium text-gray-900'>
-                                          <h3>
-                                            <a href={product.link}> {product.name} </a>
-                                          </h3>
-                                          <p className='ml-4'>{product.price}</p>
-                                        </div>
-                                        <p className='mt-1 text-sm text-gray-500'>{product.carBrand}</p>
-                                      </div>
-                                      <div className='flex flex-1 items-end justify-between text-sm'>
-                                        <p className='text-gray-500'>Amount: {carParts[index].amount}</p>
-
-                                        <div className='flex'>
-                                          <button
-                                            type='button'
-                                            className='font-medium text-indigo-600 hover:text-indigo-500'
-                                          >
-                                            Remove
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
+                                  <ShoppingCartProduct product={product} carParts={carParts} index={index}/>
                               ))}
                             </ul>
                           </div>

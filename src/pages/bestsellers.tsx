@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
-import Link from 'next/link';
-import { imageUrl } from '@/utils/Image';
-import { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import { Bestsellers, Categories } from '@/types_realm';
+import { Bestsellers } from '@/types_realm';
+import LoadingOverlay from '@/components/LoadingOverlay';
+import SingleProductIcon from '@/components/SingleProductIcon';
 
 export const FIND_BESTSELLERS = gql`
     query {
@@ -28,30 +27,16 @@ const Bestsellers = () => {
   return (
     <div className="bg-white">
       <Navbar />
-      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 border-4 border-solid mt-32 shadow-2xl bg-gray-50 rounded-3xl">
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Przedmioty kupowane najczęściej</h2>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {!loading && bestsellers.map((product) => (
-              <Link prefetch as={`/part/${product.id}`} href={{
-                pathname: 'part',
-                query: 'id='+ product.id }} key={product.id}>
-                <div className="group relative">
-                  <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                    <img className="w-full h-full object-center object-cover" src={imageUrl(router, product.image)} alt={product.name} />
-                  </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        {product.name}
-                      </h3>
-                    </div>
-                    <p className="text-sm font-medium text-gray-900">{product.price}</p>
-                  </div>
-                </div>
-              </Link>
+              <SingleProductIcon product={product}/>
           ))}
+          {loading && <LoadingOverlay />}
         </div>
+
       </div>
     </div>
   );

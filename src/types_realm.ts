@@ -22,3 +22,24 @@ export interface Bestsellers {
   image: string
 }
 
+export interface Checkout {
+  _id: string,
+  id: number,
+  name: string,
+  price: number,
+  image: string,
+  link: string,
+  carBrand: string,
+  amount: number
+}
+
+export interface TempPart {
+  _id: string,
+  id: number,
+  name: string,
+  price: number,
+  image: string,
+  link: string,
+  carBrand: string,
+  amount: number
+}

@@ -4,7 +4,7 @@ import { Popover } from '@headlessui/react';
 import { MenuIcon } from '@heroicons/react/outline';
 import ShoppingCart from '@/components/shoppingCart';
 import { useUser } from '@auth0/nextjs-auth0';
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
@@ -41,7 +41,7 @@ export default function Navbar({}) {
 
   return (
     <Popover>
-      <div className='fixed top-0 left-0 w-screen pt-6 px-4 sm:px-6 lg:px-8 py-5'
+      <div className='top-0 left-0 w-screen pt-6 px-4 sm:px-6 lg:px-8 py-5 fixed'
            style={{ background: 'linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,128,0,1) 17%, rgba(255,252,0,1) 33%, rgba(31,255,0,1) 50%, rgba(0,35,255,1) 66%, rgba(175,0,255,1) 83%, rgba(255,0,215,1) 100%)' }}>
         <nav className='relative flex items-center justify-between sm:h-10 lg:justify-start' aria-label='Global'>
           <div className='flex items-center flex-grow flex-shrink-0 lg:flex-grow-0'>
