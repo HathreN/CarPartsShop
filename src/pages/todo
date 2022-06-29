@@ -21,10 +21,10 @@ dobre praktyki:
 -a zamienić na Link(tylko do stron które są w środku projektu) - DONE
 -svg(wyjaśnienie) - Done
 -Meta - DONE
+-wszystko co jest iterowane powinno mieć własny komponent - DONE
+-dzielenie komponentów na mniejsze komponenty(wewnątrz)
 -zrobienie layoutu(main)
     - navbar
--wszystko co jest iterowane powinno mieć własny komponent
--dzielenie komponentów na mniejsze komponenty(wewnątrz)
 -wydzielanie funkcji i nazywanie jej zastosowania
 
 ---------------------------------------------------------------------------------------------------
@@ -34,13 +34,3 @@ stylistyczne:
 -wydzielenie wystylizowanych komponentow(button od akcji, formularze, przyciski itd)
 -index
 -MUI
-
-Szanowny Panie Doktorze,
-
-
-Mam pytanie odnośnie promotorstwa ponieważ należę do grona osób które dalej nie mają promotora, mam pytanie czy projekt "Analiza i porównanie wybranych stosów technologicznych na przykładzie pewnej aplikacji klient-serwer" jest przez kogoś zajęty i jeśli nie to czy mogę się do niego zapisać?
-
-
-Z wyrazami szacunku,
-
-Kacper Dąbrowa

@@ -22,14 +22,14 @@ export default function ShoppingCartProduct({product,carParts, index}){
           <p className='mt-1 text-sm text-gray-500'>{product.carBrand}</p>
         </div>
         <div className='flex flex-1 items-end justify-between text-sm'>
-          <p className='text-gray-500'>Amount: {carParts[index].amount}</p>
+          <p className='text-gray-500'>Ilość: {carParts[index].amount}</p>
 
           <div className='flex'>
             <button
               type='button'
               className='font-medium text-indigo-600 hover:text-indigo-500'
             >
-              Remove
+              Usuń produkt
             </button>
           </div>
         </div>

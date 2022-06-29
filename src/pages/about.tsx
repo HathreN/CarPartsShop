@@ -3,27 +3,33 @@ import Navbar from '@/components/Navbar';
 
 const features = [
   {
-    name: 'Competitive exchange rates',
+    name: 'Duży wybór części',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Ogrom oferowanych przez nas produktów wynika z uzyskania partnerstwa z wieloma firmami motoryzacyjnymi',
     icon: GlobeAltIcon,
   },
   {
-    name: 'No hidden fees',
+    name: 'Łatwy do obsługi interfejs',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Nasza strona zaprojektowana została dla pasjonatów co oznacza brak bezsensownych reklam oraz niepotrzebnych stron',
     icon: ScaleIcon,
   },
   {
-    name: 'Transfers are instant',
+    name: 'Prędkość złożenia zamówienia',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Po potwierdzeniu złożenia zamówienia zostaje ono natychmiastowo przesłane do bazy zamówień dzięki czemu nasi pracownicy mogą skompletować twoje zamówienie niemalże natychmiast',
     icon: LightningBoltIcon,
   },
   {
-    name: 'Mobile notifications',
+    name: 'Prędkość dostawy zamówienia',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Dzięki naszej współpracy z firmą kurierską DHL paczki z naszych placówek odbierane są dwa razy w ciągu jednego dnia od poniedziąłku do piątku dzięki czemu zamówienia szybko dostarczane są do klientów',
+    icon: AnnotationIcon,
+  },
+  {
+    name: 'Szybka pomoc obsługi',
+    description:
+      'Jeśli masz jakieś pytanie skontaktuj się z obsługą a postarją się oni w szybki sposób odpowiedzieć na twoje pytanie',
     icon: AnnotationIcon,
   },
 ]
@@ -35,13 +41,12 @@ const About = () => {
       <Navbar />
       <div className="mt-36 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Transactions</h2>
+          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">O nas :</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            A better way to send money
+            MotorSportShop
           </p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in
-            accusamus quisquam.
+            Nasza firma została założona w 2015 roku i to już od wtedy pomagamy realizować marzenia naszych klientów.
           </p>
         </div>
 

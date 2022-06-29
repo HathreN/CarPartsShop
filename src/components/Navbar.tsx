@@ -27,29 +27,27 @@ export const FIND_ALL_PARTS = gql`
 const navigation = [
   { name: 'Bestsellery', href: '/bestsellers' },
   { name: 'Kategorie', href: '/categories' },
-  { name: 'Outlet', href: '/outlet' },
+  // { name: 'Outlet', href: '/outlet' },
   { name: 'O nas', href: '/about' }
 ];
 export default function Navbar({}) {
-  const [searchText, setSearchText] = React.useState("gwint");
+  const [searchText, setSearchText] = React.useState("");
   const { loading, data } = useQuery(FIND_ALL_PARTS, {
     variables: { query: { name: searchText } }
   });
   const part = data ? data.part : null;
   const { user } = useUser();
   const router = useRouter();
-
+  // style={{ background: 'linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,128,0,1) 17%, rgba(255,252,0,1) 33%, rgba(31,255,0,1) 50%, rgba(0,35,255,1) 66%, rgba(175,0,255,1) 83%, rgba(255,0,215,1) 100%)' }}
   return (
     <Popover>
-      <div className='top-0 left-0 w-screen pt-6 px-4 sm:px-6 lg:px-8 py-5 fixed'
-           style={{ background: 'linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,128,0,1) 17%, rgba(255,252,0,1) 33%, rgba(31,255,0,1) 50%, rgba(0,35,255,1) 66%, rgba(175,0,255,1) 83%, rgba(255,0,215,1) 100%)' }}>
+      <div className='top-0 left-0 w-screen pt-6 px-4 sm:px-6 lg:px-8 py-5 fixed bg-test-3 shadow-lg'>
         <nav className='relative flex items-center justify-between sm:h-10 lg:justify-start' aria-label='Global'>
           <div className='flex items-center flex-grow flex-shrink-0 lg:flex-grow-0'>
             <div className='flex items-center justify-between w-full md:w-auto'>
-              <a href='/'>
-                <span className='sr-only'>Workflow</span>
-                <img className='h-8 w-auto sm:h-10 rounded-full' src={imageUrl(router, '/logo.jpg')} alt='cos' />
-              </a>
+              <Link href='/'>
+                  <img className='h-8 w-auto sm:h-10 rounded-full hover:opacity-50' src={imageUrl(router, '/logo.jpg')} alt='cos' />
+              </Link>
               <div className='-mr-2 flex items-center md:hidden'>
                 <Popover.Button
                   className='bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
@@ -75,15 +73,13 @@ export default function Navbar({}) {
               </a>
             )}
           </div>
-          <div className='flex items-center sm:h-10 lg:justify-start' aria-label='Global'>
-              <ShoppingCart />
-          </div>
-          <div className='title-input'>
+          <div className='title-input ml-5'>
             <input
-              className='fancy-input'
+              className='text-center fancy-input rounded-full'
               value={searchText}
               onChange={e => setSearchText(e.target.value)}
               type='text'
+              placeholder="Wpisz nazwę części"
             />
             {part && (
               <Link href={{
@@ -91,6 +87,9 @@ export default function Navbar({}) {
                 query: 'id=' + part.id
               }}>{part.name}</Link>
               )}
+          </div>
+          <div className='absolute flex items-center sm:h-10 lg:justify-end right-0' aria-label='Global'>
+            <ShoppingCart />
           </div>
         </nav>
       </div>
