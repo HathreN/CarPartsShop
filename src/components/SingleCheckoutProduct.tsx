@@ -3,6 +3,7 @@ import { imageUrl } from '@/utils/Image';
 import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
 //@ts-ignore
 import { setCartLength } from '@/pages/checkout';
+import Button from '@/components/UI/Button';
 //@ts-ignore
 export default function SingleCheckoutProduct({product,carParts,index}){
 
@@ -53,15 +54,7 @@ export default function SingleCheckoutProduct({product,carParts,index}){
           <p className="text-gray-500">Ilość produktów: {carParts[index]?.amount}</p>
 
           <div className="flex">
-            <button
-              type="button"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-              onClick={()=>{
-                removeProduct()
-              }}
-            >
-              Usuń produkt
-            </button>
+            <Button onClick={()=>{removeProduct()}}>Usuń produkt</Button>
           </div>
         </div>
       </div>

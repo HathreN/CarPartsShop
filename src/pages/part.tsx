@@ -4,6 +4,8 @@ import Navbar from '@/components/Navbar';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import LoadingOverlay from '@/components/LoadingOverlay';
+import Link from 'next/link';
+import Button from '@/components/UI/Button';
 
 export const FIND_PART = gql`
   query FindPart($query: PartQueryInput!) {
@@ -55,6 +57,20 @@ const Part = () => {
     console.log(JSON.stringify(cart))
     localStorage.setItem('shoppingCart', JSON.stringify(cart));
   }
+  interface DescriptionParams{description:string}
+  function Description({description}:DescriptionParams){
+    return (
+      <div
+        className="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+        <div>
+          <div className="space-y-6">
+            <p className="text-base text-gray-900">{description}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
 
     <div className="bg-white">
@@ -65,7 +81,22 @@ const Part = () => {
             { !loading &&
               <li key={part.id}>
                 <div className="flex items-center">
-                  {part.category}
+                  <Link href='categories'><text className='font-medium text-gray-700 hover:text-gray-900'>categories</text></Link>
+                  <svg
+                    width={16}
+                    height={150}
+                    viewBox="0 0 16 20"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className=" text-blue-500"
+                  >
+                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+
+                  </svg>
+                  <Link prefetch as={`category/${part.category}`} href={{
+                    pathname: 'category',
+                    query: 'category=' + part.category }} key={part.id}><text className='font-medium text-gray-700 hover:text-gray-900'>{part.category}</text></Link>
                   {/*category / part navigation*/}
                   <svg
                     width={16}
@@ -79,7 +110,7 @@ const Part = () => {
                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
 
                   </svg>
-                  {part.name}
+                  <text className='font-medium text-gray-700 hover:text-gray-900'>{part.name}</text>
                 </div>
                 <div className="max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
                   <div className="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
@@ -109,24 +140,13 @@ const Part = () => {
 
                   <div className="mt-4 lg:mt-0 lg:row-span-3">
                     <p className="text-3xl text-gray-900">{part.price + ' zł'}</p>
-                    <button
-                      onClick={() => {
-                        handleSubmit(part.id)
-                      }}
-                      className="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      Add to bag
-                    </button>
+                    <Button onClick={() => {
+                      handleSubmit(part.id)
+                    }}> Add to bag
+                    </Button>
                   </div>
 
-                  <div
-                    className="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                    <div>
-                      <div className="space-y-6">
-                        <p className="text-base text-gray-900">{part.description}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <Description description={part.description}/>
                 </div>
               </li>
             }

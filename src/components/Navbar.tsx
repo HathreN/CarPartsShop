@@ -27,7 +27,6 @@ export const FIND_ALL_PARTS = gql`
 const navigation = [
   { name: 'Bestsellery', href: '/bestsellers' },
   { name: 'Kategorie', href: '/categories' },
-  // { name: 'Outlet', href: '/outlet' },
   { name: 'O nas', href: '/about' }
 ];
 export default function Navbar({}) {
@@ -57,19 +56,19 @@ export default function Navbar({}) {
               </div>
             </div>
           </div>
-          <div className='hidden md:block md:ml-10 md:pr-4 md:space-x-8 font-medium text-gray-500 hover:text-gray-900'>
+          <div className='hidden md:block md:ml-10 md:pr-4 md:space-x-8'>
             {navigation.map((item) => (
               <Link href={{
                 pathname: item.href
-              }} key={item.name}>{item.name}</Link>
+              }} key={item.name}><text className='font-medium text-indigo-600 hover:text-gray-900'>{item.name}</text></Link>
             ))}
 
             {(user) ? (
-              <a href={'/api/auth/logout'} className='font-medium text-indigo-600 hover:text-indigo-500'>
+              <a href={'/api/auth/logout'} className='font-medium text-indigo-600 hover:text-gray-900 hover:no-underline'>
                 Wyloguj się
               </a>) : (
-              <a href={'/api/auth/login'} className='font-medium text-indigo-600 hover:text-indigo-500'>
-                Zaloguj się
+              <a href={'/api/auth/login'} className='font-medium text-indigo-600 hover:text-gray-900 hover:no-underline'>
+                <text style={{textDecorationLine: 'none'}}>Zaloguj się</text>
               </a>
             )}
           </div>
@@ -81,14 +80,14 @@ export default function Navbar({}) {
               type='text'
               placeholder="Wpisz nazwę części"
             />
-            {part && (
+            {part && !loading && (
               <Link href={{
                 pathname: 'part',
                 query: 'id=' + part.id
-              }}>{part.name}</Link>
+              }}><text className='font-medium text-indigo-600 hover:text-gray-900'>{part.name}</text></Link>
               )}
           </div>
-          <div className='absolute flex items-center sm:h-10 lg:justify-end right-0' aria-label='Global'>
+          <div className='absolute flex items-center sm:h-10 lg:justify-end right-0' aria-label='ShoppingCart'>
             <ShoppingCart />
           </div>
         </nav>

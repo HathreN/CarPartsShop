@@ -1,5 +1,6 @@
 import { imageUrl } from '@/utils/Image';
 import { useRouter } from 'next/router';
+import Button from '@/components/UI/Button';
 
 export default function ShoppingCartProduct({product,carParts, index}){
   const router = useRouter()
@@ -25,12 +26,7 @@ export default function ShoppingCartProduct({product,carParts, index}){
           <p className='text-gray-500'>Ilość: {carParts[index].amount}</p>
 
           <div className='flex'>
-            <button
-              type='button'
-              className='font-medium text-indigo-600 hover:text-indigo-500'
-            >
-              Usuń produkt
-            </button>
+            <Button onClick={()=>{}}>Usuń produkt</Button>
           </div>
         </div>
       </div>

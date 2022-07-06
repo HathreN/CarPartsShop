@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import ShoppingCartProduct from '@/components/ShoppingCartProduct';
+import Button from '@/components/UI/Button';
 
 let products:object = [];
 export const FIND_ALL_PARTS = gql`
@@ -84,7 +85,7 @@ export default function ShoppingCart() {
 
   return (
     <div>
-      <div>
+      <div className='flex justify-center items-center flex-col hover:rounded-full hover:bg-gray-200 duration-300 hover:h-10 hover:w-10'>
         <AiOutlineShoppingCart size={30} onClick={() => {
           setOpen(true);
         }} />
@@ -120,15 +121,8 @@ export default function ShoppingCart() {
                       <div className='flex-1 overflow-y-auto py-6 px-4 sm:px-6'>
                         <div className='flex items-start justify-between'>
                           <Dialog.Title className='text-lg font-medium text-gray-900'> Przedmioty znajdujące się w twoim koszyku </Dialog.Title>
-                          <div className='ml-3 flex h-7 items-center'>
-                            <button
-                              type='button'
-                              className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-                              onClick={() => setOpen(false)}
-                            >
-                              <span className='sr-only'>Close panel</span>
-                              <XIcon className='h-6 w-6' aria-hidden='true' />
-                            </button>
+                          <div className='ml-3 flex h-7 items-center -m-2 p-2 text-gray-400 hover:text-gray-500'>
+                            <Button onClick={() => setOpen(false)} ><XIcon className='h-6 w-6' aria-hidden='true' /></Button>
                           </div>
                         </div>
 
@@ -161,13 +155,7 @@ export default function ShoppingCart() {
                         <div className='mt-6 flex justify-center text-center text-sm text-gray-500'>
                           <p>
                             lub{' '}
-                            <button
-                              type='button'
-                              className='font-medium text-indigo-600 hover:text-indigo-500'
-                              onClick={() => setOpen(false)}
-                            >
-                              Przeglądaj sklep dalej<span aria-hidden='true'> &rarr;</span>
-                            </button>
+                            <Button onClick={() => setOpen(false)}>Przeglądaj sklep dalej<span aria-hidden='true'> &rarr;</span></Button>
                           </p>
                         </div>
                       </div>

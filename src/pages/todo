@@ -5,13 +5,13 @@ funkcjonalne:
 -wyszukiwanie po nazwie(input) - DONE
 -przerobic strone z /part/?id=6 na /part/6(next routing) - DONE
 -otypować wszystkie useQuery<typ>() - DONE
+-zamowienia danego klienta
+    -realizacja zamowienia po kliknieciu w przycisk - DONE
+    -listowanie zamowien i ograniczenie podgladu na poziomie realma(orgraniczenia po id)
 -hook/komponent useCart który wystwia metody
     -addToCart(itemId)
     -getCartItemsIds
     reactCustomHook https://pl.reactjs.org/docs/hooks-custom.html
--zamowienia danego klienta
-    -listowanie zamowien i ograniczenie podgladu na poziomie realma(orgraniczenia po id)
-    -realizacja zamowienia po kliknieciu w przycisk - 50% DONE
 
 ---------------------------------------------------------------------------------------------------
 dobre praktyki:
@@ -31,6 +31,6 @@ dobre praktyki:
 stylistyczne:
 
 -Loading - DONE
--wydzielenie wystylizowanych komponentow(button od akcji, formularze, przyciski itd)
+-wydzielenie wystylizowanych komponentow(button od akcji, formularze, przyciski itd) - Done
 -index
 -MUI

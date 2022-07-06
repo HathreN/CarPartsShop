@@ -14,7 +14,6 @@ export const FIND_CATEGORIES = gql`
             id
             name
             category
-            href
             imageSrc
         }
     }

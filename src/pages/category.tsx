@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { CategoryPart } from '@/types_realm';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import SingleProductIcon from '@/components/SingleProductIcon';
+import Button from '@/components/UI/Button';
 
 export const FIND_CATEGORY_PARTS = gql`
     query FindCategoryParts($query: PartQueryInput!, $sortBy: PartSortByInput) {
@@ -27,12 +28,13 @@ const Category = () => {
 
   const router = useRouter();
   const { category } = router.query;
-  console.log(category)
+  console.log(category);
   const { loading, data } = useQuery<{ parts: CategoryPart[] }>(FIND_CATEGORY_PARTS, {
     variables: { query: { category: category } }
   });
   let categoryParts = data ? data.parts : null;
   const [sort, setSort] = useState(0);
+
   function sortParts(variant: number) {
 
 
@@ -66,22 +68,20 @@ const Category = () => {
       <Navbar />
       <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
         <h2 className='text-2xl font-extrabold tracking-tight text-gray-900'>Przedmioty kategorii: {category}</h2>
-        <div>Opcje filtrowania: <button className='border-solid border-4 rounded-full px-2 border-b-amber-500'
-                                        onClick={() => {
-                                          sortParts(1);
-                                        }}>alfabetycznie</button>
-          <button className='border-solid border-4 rounded-full px-2 border-b-amber-500' onClick={() => {
+        <div>Opcje filtrowania:
+          <Button onClick={() => {
+            sortParts(1);
+          }}>alfabetycznie</Button>
+          <Button onClick={() => {
             sortParts(2);
-          }}>cenowo
-          </button>
-          <button className='border-solid border-4 rounded-full px-2 border-b-amber-500' onClick={() => {
+          }}>cenowo</Button>
+          <Button onClick={() => {
             sortParts(3);
-          }}>marki alfabetycznie
-          </button>
+          }}>marki alfabetycznie</Button>
         </div>
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
           {!loading && categoryParts.map((product) => (
-            <SingleProductIcon product={product}/>
+            <SingleProductIcon product={product} />
           ))}
           {loading &&
             <LoadingOverlay />}
