@@ -37,7 +37,6 @@ const Part = () => {
     variables: { query: {id: id}  }
   });
   const part = data ? data.part : null;
-  console.log(JSON.stringify(part))
 
   function handleSubmit(id: number) {
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';

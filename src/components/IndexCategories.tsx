@@ -1,11 +1,10 @@
-import Navbar from '@/components/Navbar';
-import { useQuery } from '@apollo/client';
-import * as React from 'react';
+import React from 'react';
+
 import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 import { Categories } from '@/types_realm';
 import LoadingOverlay from '@/components/LoadingOverlay';
-import SingleCategoryIcon from '@/components/SingleCategoryIcon';
-
+import Link from 'next/link';
 export const FIND_CATEGORIES = gql`
     query {
         categories (sortBy: ID_ASC ){
@@ -17,30 +16,29 @@ export const FIND_CATEGORIES = gql`
         }
     }
 `;
-const Categories = () => {
 
+export default function IndexCategories() {
   const { loading, data, error } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
-    variables: { query: { name: 'wnetrze' } }
+    variables: { query: {} }
   });
   const category = data ? data.categories : null;
   return (
-    <div className='bg-white'>
-      <Navbar />
-      <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
-        <h2 className='text-2xl font-extrabold tracking-tight text-gray-900'>Dostępne kategorie</h2>
-
+    <div className="flex justify-center">
+      <div className='bg-amber-100 max-w-5xl rounded-2xl text-center mt-16 ml-8 w-full'>
+        <div className='text-black'>CATEGORIES PANEL PLACEHOLDER</div>
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
           {(!loading &&
-          !category && <div className='status'>Loading</div>)}
+            !category && <div className='status'>Loading</div>)}
 
           {!loading && category.map((singleCategory) => (
-            <SingleCategoryIcon singleCategory={singleCategory}/>
+            <Link prefetch as={`category/${singleCategory.category}`} href={{
+              pathname: 'category',
+              query: 'category=' + singleCategory.category }} key={singleCategory.id}>{singleCategory.name}</Link>
           ))}
           {loading &&
             <LoadingOverlay />}
         </div>
       </div>
     </div>
-  );
-};
-export default Categories;
+  )
+}
