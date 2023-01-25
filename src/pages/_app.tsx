@@ -9,14 +9,34 @@ import {
   ApolloProvider,
   ApolloClient,
   HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+  InMemoryCache, DocumentNode
+} from '@apollo/client';
 
 import * as Realm from "realm-web";
 
-export let user;
 export const APP_ID = "partsshop-iqmiv";
-const app = new Realm.App(APP_ID);
+const app:any = new Realm.App(APP_ID);
+export async function fetchGQLData(query: any) {
+  function getGqlString(doc: DocumentNode) {
+    return doc.loc && doc.loc.source.body;
+  }
+
+  const options: any = {
+    body: JSON.stringify({
+      query: getGqlString(query)
+    }),
+    headers: {
+      'Content-Type': "application/json",
+    }
+  };
+
+  options.method = 'POST';
+
+  const accessToken = await getValidAccessToken();
+  options.headers.Authorization = `Bearer ${accessToken}`;
+
+  return (await fetch(`https://eu-central-1.aws.realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`, options)).json()
+}
 
 async function getValidAccessToken() {
   if (!app.currentUser) {
@@ -32,6 +52,7 @@ const client = new ApolloClient({
     uri: `https://eu-central-1.aws.realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`,
     fetch: async (uri, options) => {
       const accessToken = await getValidAccessToken();
+      // @ts-ignore
       options.headers.Authorization = `Bearer ${accessToken}`;
       return fetch(uri, options);
     },
@@ -40,21 +61,23 @@ const client = new ApolloClient({
 });
 
   const credentials = Realm.Credentials.anonymous();
+
   try {
+    let user;
     user = await app.logIn(credentials);
-    localStorage.setItem('UID', user.id)
-    console.log('user zapisany')
+    window.localStorage.setItem('UID', user.id)
   } catch (err) {
     console.error('Failed to log in', err);
   }
-const MyApp = ({ Component, pageProps }: AppProps) => (
-  <UserProvider>
-    <ApolloProvider client={client}>
-      <Meta title='CarPartsShop' description='Internetowy sklep dla twojego projektu motorsportowego'/>
-      <Component {...pageProps}/>
-    </ApolloProvider>
-  </UserProvider>
-
-);
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <UserProvider>
+      <ApolloProvider client={client}>
+        <Meta title='CarPartsShop' description='Internetowy sklep dla twojego projektu motorsportowego' />
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </UserProvider>
+  )
+};
 
 export default MyApp;

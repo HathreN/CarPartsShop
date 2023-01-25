@@ -1,15 +1,12 @@
-import { imageUrl } from '@/utils/Image';
-import { useRouter } from 'next/router';
 import Button from '@/components/UI/Button';
 
-export default function ShoppingCartProduct({product,carParts, index}){
-  const router = useRouter()
+export default function ShoppingCartProduct({product,carParts, index}:any){
   return (
     <li key={product.id} className='flex py-6'>
       <div
         className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
         <img className='w-full h-full object-center object-cover'
-             src={imageUrl(router, product.image)} alt={product.name} />
+             src={product.image[0].link} alt={product.name} />
       </div>
 
       <div className='ml-4 flex flex-1 flex-col'>

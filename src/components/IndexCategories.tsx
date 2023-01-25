@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import { Categories } from '@/types_realm';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import Link from 'next/link';
+import { BsList } from 'react-icons/bs';
 export const FIND_CATEGORIES = gql`
     query {
         categories (sortBy: ID_ASC ){
@@ -18,22 +19,33 @@ export const FIND_CATEGORIES = gql`
 `;
 
 export default function IndexCategories() {
-  const { loading, data, error } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
+  const { loading, data} = useQuery<{
+    categories: any;
+    parts: Categories[] }>(FIND_CATEGORIES, {
     variables: { query: {} }
   });
   const category = data ? data.categories : null;
   return (
-    <div className="flex justify-center">
-      <div className='bg-amber-100 max-w-5xl rounded-2xl text-center mt-16 ml-8 w-full'>
-        <div className='text-black'>CATEGORIES PANEL PLACEHOLDER</div>
-        <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
+    <div>
+      <section className='flex text-white rounded-t-2xl items-center justify-center gap-2 bg-navbar-accents text-center w-full h-10'>
+        <BsList color="white" size={25}/>
+        <header className="text-xl">Kategorie</header>
+      </section>
+      <div className='w-full'>
+        <div className='grid sm:grid-cols-4 sm:grid-rows-4 md:grid-cols-1 sm:grid-rows-1 sm:grid-cols-10 text-navbar-primary font-semibold text-lg '>
           {(!loading &&
             !category && <div className='status'>Loading</div>)}
 
-          {!loading && category.map((singleCategory) => (
-            <Link prefetch as={`category/${singleCategory.category}`} href={{
-              pathname: 'category',
-              query: 'category=' + singleCategory.category }} key={singleCategory.id}>{singleCategory.name}</Link>
+          {!loading && category.map((singleCategory: { id: React.Key | null | undefined; category: string; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+            <div key={singleCategory.id} className="hover:text-cyan-700 hover:bg-gray-200 hover:cursor-pointer">
+              <Link as={`category/${singleCategory.category}`} href={{
+                pathname: 'category',
+                query: 'category=' + singleCategory.category }} key={singleCategory.id}>
+                  <div className="mx-4 my-2">
+                    {singleCategory.name}
+                  </div>
+              </Link>
+            </div>
           ))}
           {loading &&
             <LoadingOverlay />}

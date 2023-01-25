@@ -1,4 +1,4 @@
-import Navbar from '@/components/Navbar';
+import Navbar2 from '@/components/Navbar2';
 import { useQuery } from '@apollo/client';
 import * as React from 'react';
 import gql from 'graphql-tag';
@@ -19,13 +19,14 @@ export const FIND_CATEGORIES = gql`
 `;
 const Categories = () => {
 
-  const { loading, data, error } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
+  const { loading, data } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
     variables: { query: { name: 'wnetrze' } }
   });
-  const category = data ? data.categories : null;
+  const { categories }:any = data;
+  const category = data ? categories : null;
   return (
     <div className='bg-white'>
-      <Navbar />
+      <Navbar2 />
       <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
         <h2 className='text-2xl font-extrabold tracking-tight text-gray-900'>Dostępne kategorie</h2>
 
@@ -33,8 +34,8 @@ const Categories = () => {
           {(!loading &&
           !category && <div className='status'>Loading</div>)}
 
-          {!loading && category.map((singleCategory) => (
-            <SingleCategoryIcon singleCategory={singleCategory}/>
+          {!loading && category.map((singleCategory:any) => (
+            <SingleCategoryIcon singleCategory={singleCategory} key={singleCategory.id}/>
           ))}
           {loading &&
             <LoadingOverlay />}

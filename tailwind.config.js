@@ -68,6 +68,11 @@ module.exports = {
           800: '#2c5282',
           900: '#2a4365',
         },
+        navbar: {
+          primary: '#27b7d4',
+          secondary: '#DD1E28',
+          accents: '#333333',
+        },
       },
       animation: {
         'spin-slow': 'spin 5s linear infinite',

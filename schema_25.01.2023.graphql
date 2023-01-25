@@ -1,0 +1,1193 @@
+type MovieAward {
+  nominations: Int
+  text: String
+  wins: Int
+}
+
+type Mutation {
+  deleteManyCategories(query: CategoryQueryInput): DeleteManyPayload
+  deleteManyMovies(query: MovieQueryInput): DeleteManyPayload
+  deleteManyOrders(query: OrderQueryInput): DeleteManyPayload
+  deleteManyParts(query: PartQueryInput): DeleteManyPayload
+  deleteOneCategory(query: CategoryQueryInput!): Category
+  deleteOneMovie(query: MovieQueryInput!): Movie
+  deleteOneOrder(query: OrderQueryInput!): Order
+  deleteOnePart(query: PartQueryInput!): Part
+  insertManyCategories(data: [CategoryInsertInput!]!): InsertManyPayload
+  insertManyMovies(data: [MovieInsertInput!]!): InsertManyPayload
+  insertManyOrders(data: [OrderInsertInput!]!): InsertManyPayload
+  insertManyParts(data: [PartInsertInput!]!): InsertManyPayload
+  insertOneCategory(data: CategoryInsertInput!): Category
+  insertOneMovie(data: MovieInsertInput!): Movie
+  insertOneOrder(data: OrderInsertInput!): Order
+  insertOnePart(data: PartInsertInput!): Part
+  replaceOneCategory(data: CategoryInsertInput!, query: CategoryQueryInput): Category
+  replaceOneMovie(query: MovieQueryInput, data: MovieInsertInput!): Movie
+  replaceOneOrder(query: OrderQueryInput, data: OrderInsertInput!): Order
+  replaceOnePart(query: PartQueryInput, data: PartInsertInput!): Part
+  updateManyCategories(query: CategoryQueryInput, set: CategoryUpdateInput!): UpdateManyPayload
+  updateManyMovies(query: MovieQueryInput, set: MovieUpdateInput!): UpdateManyPayload
+  updateManyOrders(query: OrderQueryInput, set: OrderUpdateInput!): UpdateManyPayload
+  updateManyParts(query: PartQueryInput, set: PartUpdateInput!): UpdateManyPayload
+  updateOneCategory(query: CategoryQueryInput, set: CategoryUpdateInput!): Category
+  updateOneMovie(query: MovieQueryInput, set: MovieUpdateInput!): Movie
+  updateOneOrder(query: OrderQueryInput, set: OrderUpdateInput!): Order
+  updateOnePart(query: PartQueryInput, set: PartUpdateInput!): Part
+  upsertOneCategory(query: CategoryQueryInput, data: CategoryInsertInput!): Category
+  upsertOneMovie(query: MovieQueryInput, data: MovieInsertInput!): Movie
+  upsertOneOrder(query: OrderQueryInput, data: OrderInsertInput!): Order
+  upsertOnePart(data: PartInsertInput!, query: PartQueryInput): Part
+}
+
+input OrderUpdateInput {
+  parts_unset: Boolean
+  orderPrice: Int
+  orderPrice_unset: Boolean
+  id_unset: Boolean
+  userName: String
+  userName_unset: Boolean
+  _id: ObjectId
+  _id_unset: Boolean
+  orderPrice_inc: Int
+  parts: [OrderPartUpdateInput]
+  id: Int
+  id_inc: Int
+}
+
+type MovieImdb {
+  id: Int
+  rating: Float
+  votes: Int
+}
+
+type DefaultPayload {
+  status: String!
+}
+
+input MovieTomatoViewerInsertInput {
+  rating: Float
+  meter: Int
+  numReviews: Int
+}
+
+input MovieTomatoViewerUpdateInput {
+  meter_unset: Boolean
+  numReviews: Int
+  numReviews_unset: Boolean
+  numReviews_inc: Int
+  meter_inc: Int
+  rating_inc: Float
+  rating_unset: Boolean
+  meter: Int
+  rating: Float
+}
+
+input MovieImdbQueryInput {
+  AND: [MovieImdbQueryInput!]
+  id_in: [Int]
+  rating_exists: Boolean
+  votes_gte: Int
+  rating_lte: Float
+  votes_in: [Int]
+  votes_nin: [Int]
+  rating_in: [Float]
+  votes_lt: Int
+  votes_exists: Boolean
+  OR: [MovieImdbQueryInput!]
+  rating_ne: Float
+  votes_gt: Int
+  rating: Float
+  rating_lt: Float
+  votes_ne: Int
+  id_gt: Int
+  rating_gte: Float
+  id_gte: Int
+  votes_lte: Int
+  id_ne: Int
+  id: Int
+  rating_nin: [Float]
+  id_lt: Int
+  id_lte: Int
+  votes: Int
+  id_nin: [Int]
+  id_exists: Boolean
+  rating_gt: Float
+}
+
+input MovieTomatoCriticQueryInput {
+  meter_lt: Int
+  numReviews_lt: Int
+  meter_lte: Int
+  numReviews_lte: Int
+  meter_gte: Int
+  rating_lte: Float
+  numReviews_nin: [Int]
+  rating_exists: Boolean
+  rating_nin: [Float]
+  numReviews_in: [Int]
+  meter_in: [Int]
+  numReviews_gt: Int
+  rating_gt: Float
+  rating_in: [Float]
+  AND: [MovieTomatoCriticQueryInput!]
+  rating_ne: Float
+  meter_exists: Boolean
+  meter_ne: Int
+  numReviews: Int
+  meter_gt: Int
+  rating_gte: Float
+  numReviews_exists: Boolean
+  OR: [MovieTomatoCriticQueryInput!]
+  meter_nin: [Int]
+  numReviews_ne: Int
+  rating_lt: Float
+  numReviews_gte: Int
+  meter: Int
+  rating: Float
+}
+
+input MovieTomatoViewerQueryInput {
+  meter_gt: Int
+  rating_lt: Float
+  numReviews_gt: Int
+  rating_lte: Float
+  meter_gte: Int
+  rating_gt: Float
+  numReviews_ne: Int
+  meter_in: [Int]
+  numReviews_exists: Boolean
+  meter_nin: [Int]
+  meter_exists: Boolean
+  meter: Int
+  OR: [MovieTomatoViewerQueryInput!]
+  rating_in: [Float]
+  meter_lte: Int
+  numReviews_nin: [Int]
+  numReviews_lte: Int
+  numReviews_lt: Int
+  rating_exists: Boolean
+  rating_ne: Float
+  rating_gte: Float
+  numReviews_in: [Int]
+  rating: Float
+  numReviews_gte: Int
+  AND: [MovieTomatoViewerQueryInput!]
+  numReviews: Int
+  rating_nin: [Float]
+  meter_lt: Int
+  meter_ne: Int
+}
+
+type DeleteManyPayload {
+  deletedCount: Int!
+}
+
+input PartImageUpdateInput {
+  link: String
+  link_unset: Boolean
+}
+
+input OrderInsertInput {
+  orderPrice: Int
+  parts: [OrderPartInsertInput]
+  userName: String
+  deliveryDetails: OrderDeliveryInsertInput
+  _id: ObjectId
+  id: Int
+}
+
+input MovieTomatoQueryInput {
+  rotten_ne: Int
+  dvd_lt: DateTime
+  boxOffice_lte: String
+  consensus_gt: String
+  website_gt: String
+  production_in: [String]
+  dvd_nin: [DateTime]
+  website_lt: String
+  production: String
+  production_nin: [String]
+  rotten_gt: Int
+  fresh: Int
+  lastUpdated_lte: DateTime
+  production_ne: String
+  fresh_ne: Int
+  fresh_in: [Int]
+  lastUpdated_lt: DateTime
+  lastUpdated_in: [DateTime]
+  fresh_lte: Int
+  production_lt: String
+  consensus_nin: [String]
+  website_ne: String
+  fresh_exists: Boolean
+  AND: [MovieTomatoQueryInput!]
+  viewer: MovieTomatoViewerQueryInput
+  website_in: [String]
+  production_lte: String
+  rotten: Int
+  boxOffice: String
+  boxOffice_ne: String
+  dvd_gte: DateTime
+  consensus_gte: String
+  critic_exists: Boolean
+  dvd: DateTime
+  website: String
+  production_gte: String
+  lastUpdated_gte: DateTime
+  boxOffice_in: [String]
+  lastUpdated_gt: DateTime
+  dvd_lte: DateTime
+  fresh_nin: [Int]
+  lastUpdated_ne: DateTime
+  dvd_in: [DateTime]
+  dvd_exists: Boolean
+  boxOffice_gte: String
+  consensus_lt: String
+  boxOffice_lt: String
+  fresh_gt: Int
+  rotten_lte: Int
+  production_gt: String
+  boxOffice_exists: Boolean
+  boxOffice_gt: String
+  rotten_gte: Int
+  production_exists: Boolean
+  consensus_in: [String]
+  consensus_ne: String
+  OR: [MovieTomatoQueryInput!]
+  fresh_lt: Int
+  fresh_gte: Int
+  website_nin: [String]
+  dvd_gt: DateTime
+  boxOffice_nin: [String]
+  consensus_lte: String
+  lastUpdated_exists: Boolean
+  viewer_exists: Boolean
+  website_lte: String
+  lastUpdated_nin: [DateTime]
+  critic: MovieTomatoCriticQueryInput
+  dvd_ne: DateTime
+  website_gte: String
+  lastUpdated: DateTime
+  rotten_exists: Boolean
+  website_exists: Boolean
+  consensus: String
+  rotten_lt: Int
+  consensus_exists: Boolean
+  rotten_in: [Int]
+  rotten_nin: [Int]
+}
+
+type MovieTomato {
+  boxOffice: String
+  consensus: String
+  critic: MovieTomatoCritic
+  dvd: DateTime
+  fresh: Int
+  lastUpdated: DateTime
+  production: String
+  rotten: Int
+  viewer: MovieTomatoViewer
+  website: String
+}
+
+type PartImage {
+  link: String
+}
+
+input MovieTomatoCriticInsertInput {
+  rating: Float
+  meter: Int
+  numReviews: Int
+}
+
+input MovieUpdateInput {
+  _id: ObjectId
+  genres: [String]
+  num_mflix_comments: Int
+  type_unset: Boolean
+  genres_unset: Boolean
+  lastupdated_unset: Boolean
+  title_unset: Boolean
+  runtime: Int
+  plot: String
+  metacritic: Int
+  tomatoes_unset: Boolean
+  plot_unset: Boolean
+  languages: [String]
+  rated_unset: Boolean
+  imdb: MovieImdbUpdateInput
+  released_unset: Boolean
+  num_mflix_comments_inc: Int
+  year_unset: Boolean
+  imdb_unset: Boolean
+  directors: [String]
+  runtime_unset: Boolean
+  released: DateTime
+  cast: [String]
+  countries_unset: Boolean
+  directors_unset: Boolean
+  runtime_inc: Int
+  type: String
+  writers: [String]
+  writers_unset: Boolean
+  countries: [String]
+  awards_unset: Boolean
+  rated: String
+  awards: MovieAwardUpdateInput
+  title: String
+  tomatoes: MovieTomatoUpdateInput
+  metacritic_unset: Boolean
+  _id_unset: Boolean
+  poster_unset: Boolean
+  year_inc: Int
+  cast_unset: Boolean
+  metacritic_inc: Int
+  num_mflix_comments_unset: Boolean
+  languages_unset: Boolean
+  poster: String
+  lastupdated: String
+  fullplot_unset: Boolean
+  fullplot: String
+  year: Int
+}
+
+input MovieAwardUpdateInput {
+  nominations: Int
+  nominations_inc: Int
+  nominations_unset: Boolean
+  text: String
+  text_unset: Boolean
+  wins: Int
+  wins_inc: Int
+  wins_unset: Boolean
+}
+
+input MovieQueryInput {
+  year_gt: Int
+  runtime_nin: [Int]
+  lastupdated_gt: String
+  awards: MovieAwardQueryInput
+  countries_in: [String]
+  plot_nin: [String]
+  num_mflix_comments_gte: Int
+  plot_lt: String
+  countries_nin: [String]
+  title_in: [String]
+  genres: [String]
+  runtime_ne: Int
+  languages_exists: Boolean
+  runtime_lte: Int
+  type: String
+  directors_exists: Boolean
+  imdb_exists: Boolean
+  lastupdated: String
+  year_lt: Int
+  lastupdated_nin: [String]
+  poster: String
+  plot_lte: String
+  genres_exists: Boolean
+  genres_in: [String]
+  num_mflix_comments_nin: [Int]
+  countries: [String]
+  released_lte: DateTime
+  writers_exists: Boolean
+  lastupdated_gte: String
+  _id_lt: ObjectId
+  year: Int
+  languages_nin: [String]
+  type_lt: String
+  lastupdated_in: [String]
+  type_nin: [String]
+  poster_ne: String
+  metacritic: Int
+  rated_lt: String
+  _id_gt: ObjectId
+  fullplot_ne: String
+  _id_exists: Boolean
+  metacritic_gt: Int
+  plot_in: [String]
+  writers: [String]
+  title_ne: String
+  _id_ne: ObjectId
+  plot_gte: String
+  _id_lte: ObjectId
+  _id_in: [ObjectId]
+  metacritic_nin: [Int]
+  lastupdated_lt: String
+  poster_nin: [String]
+  released_nin: [DateTime]
+  runtime_in: [Int]
+  type_in: [String]
+  poster_in: [String]
+  directors: [String]
+  _id: ObjectId
+  poster_gt: String
+  rated_ne: String
+  cast: [String]
+  directors_in: [String]
+  type_exists: Boolean
+  year_ne: Int
+  title_exists: Boolean
+  released_lt: DateTime
+  OR: [MovieQueryInput!]
+  year_lte: Int
+  fullplot: String
+  imdb: MovieImdbQueryInput
+  year_gte: Int
+  plot_ne: String
+  fullplot_lt: String
+  cast_exists: Boolean
+  rated_in: [String]
+  type_gt: String
+  poster_lt: String
+  released_in: [DateTime]
+  runtime_gte: Int
+  num_mflix_comments_gt: Int
+  num_mflix_comments_lt: Int
+  released: DateTime
+  awards_exists: Boolean
+  rated: String
+  fullplot_nin: [String]
+  type_gte: String
+  plot: String
+  num_mflix_comments_exists: Boolean
+  runtime_gt: Int
+  runtime_lt: Int
+  lastupdated_ne: String
+  runtime: Int
+  fullplot_gte: String
+  metacritic_lt: Int
+  genres_nin: [String]
+  title_gte: String
+  type_ne: String
+  title_gt: String
+  lastupdated_lte: String
+  _id_nin: [ObjectId]
+  num_mflix_comments_lte: Int
+  metacritic_ne: Int
+  languages: [String]
+  countries_exists: Boolean
+  metacritic_exists: Boolean
+  year_in: [Int]
+  poster_lte: String
+  metacritic_in: [Int]
+  rated_exists: Boolean
+  released_gte: DateTime
+  languages_in: [String]
+  released_ne: DateTime
+  plot_gt: String
+  title_lt: String
+  plot_exists: Boolean
+  metacritic_lte: Int
+  lastupdated_exists: Boolean
+  metacritic_gte: Int
+  num_mflix_comments_ne: Int
+  year_nin: [Int]
+  rated_gte: String
+  type_lte: String
+  writers_nin: [String]
+  fullplot_lte: String
+  tomatoes_exists: Boolean
+  rated_gt: String
+  num_mflix_comments_in: [Int]
+  cast_in: [String]
+  runtime_exists: Boolean
+  directors_nin: [String]
+  poster_exists: Boolean
+  num_mflix_comments: Int
+  released_gt: DateTime
+  released_exists: Boolean
+  _id_gte: ObjectId
+  writers_in: [String]
+  AND: [MovieQueryInput!]
+  cast_nin: [String]
+  fullplot_in: [String]
+  tomatoes: MovieTomatoQueryInput
+  year_exists: Boolean
+  title: String
+  poster_gte: String
+  fullplot_gt: String
+  title_nin: [String]
+  fullplot_exists: Boolean
+  rated_lte: String
+  title_lte: String
+  rated_nin: [String]
+}
+
+type Category {
+  _id: ObjectId
+  category: String
+  href: String
+  id: Int
+  imageSrc: String
+  name: String
+  price: Int
+}
+
+input PartImageQueryInput {
+  link_lt: String
+  link_gte: String
+  link_gt: String
+  OR: [PartImageQueryInput!]
+  link_lte: String
+  link_in: [String]
+  link_nin: [String]
+  link_exists: Boolean
+  link_ne: String
+  AND: [PartImageQueryInput!]
+  link: String
+}
+
+input CategoryInsertInput {
+  category: String
+  href: String
+  id: Int
+  imageSrc: String
+  name: String
+  price: Int
+  _id: ObjectId
+}
+
+enum MovieSortByInput {
+  TYPE_DESC
+  YEAR_ASC
+  _ID_ASC
+  LASTUPDATED_DESC
+  METACRITIC_ASC
+  NUM_MFLIX_COMMENTS_DESC
+  POSTER_DESC
+  LASTUPDATED_ASC
+  NUM_MFLIX_COMMENTS_ASC
+  PLOT_DESC
+  PLOT_ASC
+  POSTER_ASC
+  RATED_DESC
+  RELEASED_DESC
+  RUNTIME_ASC
+  RELEASED_ASC
+  RUNTIME_DESC
+  TITLE_ASC
+  _ID_DESC
+  FULLPLOT_ASC
+  FULLPLOT_DESC
+  METACRITIC_DESC
+  RATED_ASC
+  TITLE_DESC
+  TYPE_ASC
+  YEAR_DESC
+}
+
+input CategoryQueryInput {
+  category_gte: String
+  href_nin: [String]
+  name_gte: String
+  id_lte: Int
+  category_ne: String
+  href_exists: Boolean
+  price_lt: Int
+  id_gte: Int
+  name_ne: String
+  category: String
+  _id_nin: [ObjectId]
+  id_gt: Int
+  category_gt: String
+  imageSrc_gt: String
+  href_ne: String
+  _id: ObjectId
+  category_lt: String
+  name_gt: String
+  category_exists: Boolean
+  price_nin: [Int]
+  price_exists: Boolean
+  href_lt: String
+  id: Int
+  price_lte: Int
+  id_lt: Int
+  _id_exists: Boolean
+  _id_lt: ObjectId
+  imageSrc_lt: String
+  id_nin: [Int]
+  AND: [CategoryQueryInput!]
+  _id_ne: ObjectId
+  name_lt: String
+  id_ne: Int
+  id_exists: Boolean
+  name_exists: Boolean
+  category_nin: [String]
+  name_lte: String
+  href: String
+  imageSrc: String
+  imageSrc_nin: [String]
+  href_lte: String
+  href_gte: String
+  imageSrc_gte: String
+  _id_lte: ObjectId
+  category_lte: String
+  _id_in: [ObjectId]
+  imageSrc_in: [String]
+  imageSrc_lte: String
+  price_in: [Int]
+  imageSrc_ne: String
+  name_nin: [String]
+  OR: [CategoryQueryInput!]
+  href_in: [String]
+  price_gte: Int
+  imageSrc_exists: Boolean
+  name_in: [String]
+  id_in: [Int]
+  category_in: [String]
+  _id_gte: ObjectId
+  href_gt: String
+  _id_gt: ObjectId
+  name: String
+  price: Int
+  price_gt: Int
+  price_ne: Int
+}
+
+type OrderPart {
+  amount: Int
+  id: Int
+}
+
+type InsertManyPayload {
+  insertedIds: [ObjectId]!
+}
+
+input MovieImdbInsertInput {
+  id: Int
+  rating: Float
+  votes: Int
+}
+
+scalar ObjectId
+
+input MovieTomatoUpdateInput {
+  lastUpdated: DateTime
+  fresh_unset: Boolean
+  website_unset: Boolean
+  dvd: DateTime
+  boxOffice: String
+  website: String
+  rotten_unset: Boolean
+  production_unset: Boolean
+  production: String
+  critic: MovieTomatoCriticUpdateInput
+  viewer_unset: Boolean
+  boxOffice_unset: Boolean
+  viewer: MovieTomatoViewerUpdateInput
+  consensus: String
+  lastUpdated_unset: Boolean
+  consensus_unset: Boolean
+  critic_unset: Boolean
+  dvd_unset: Boolean
+  fresh: Int
+  fresh_inc: Int
+  rotten_inc: Int
+  rotten: Int
+}
+
+input PartUpdateInput {
+  category: String
+  description_unset: Boolean
+  carBrand_unset: Boolean
+  link_unset: Boolean
+  id_inc: Int
+  amount_unset: Boolean
+  id_unset: Boolean
+  name_unset: Boolean
+  imageSrc_unset: Boolean
+  isCategory_unset: Boolean
+  price: Int
+  href_unset: Boolean
+  category_unset: Boolean
+  carBrand: String
+  id: Int
+  link: String
+  name: String
+  amount_inc: Int
+  price_unset: Boolean
+  _id_unset: Boolean
+  image_unset: Boolean
+  amount: Int
+  _id: ObjectId
+  image: [PartImageUpdateInput]
+  description: String
+  price_inc: Int
+  imageSrc: String
+  isCategory: Boolean
+  href: String
+}
+
+input MovieImdbUpdateInput {
+  id_unset: Boolean
+  rating_inc: Float
+  votes_unset: Boolean
+  id: Int
+  rating_unset: Boolean
+  id_inc: Int
+  votes: Int
+  votes_inc: Int
+  rating: Float
+}
+
+type MovieTomatoCritic {
+  meter: Int
+  numReviews: Int
+  rating: Float
+}
+
+input PartQueryInput {
+  carBrand_ne: String
+  id_gt: Int
+  href_gt: String
+  amount_ne: Int
+  id_ne: Int
+  price_lte: Int
+  _id_exists: Boolean
+  id_lt: Int
+  imageSrc_in: [String]
+  _id_lt: ObjectId
+  carBrand_exists: Boolean
+  price_exists: Boolean
+  href_in: [String]
+  amount_nin: [Int]
+  _id_in: [ObjectId]
+  category_gt: String
+  amount_gt: Int
+  isCategory: Boolean
+  category_lte: String
+  carBrand_gte: String
+  link_ne: String
+  description_nin: [String]
+  amount_gte: Int
+  name_in: [String]
+  amount_lte: Int
+  _id_gt: ObjectId
+  amount_in: [Int]
+  imageSrc_nin: [String]
+  category_gte: String
+  id: Int
+  link: String
+  image: [PartImageQueryInput]
+  name: String
+  _id_ne: ObjectId
+  carBrand_in: [String]
+  carBrand_lt: String
+  link_exists: Boolean
+  price_nin: [Int]
+  id_in: [Int]
+  image_in: [PartImageQueryInput]
+  imageSrc: String
+  name_gte: String
+  isCategory_ne: Boolean
+  imageSrc_gte: String
+  category_lt: String
+  _id: ObjectId
+  carBrand_lte: String
+  name_lte: String
+  imageSrc_exists: Boolean
+  imageSrc_lt: String
+  image_exists: Boolean
+  name_exists: Boolean
+  amount_exists: Boolean
+  amount: Int
+  link_in: [String]
+  link_nin: [String]
+  name_ne: String
+  imageSrc_lte: String
+  id_nin: [Int]
+  price_ne: Int
+  description: String
+  _id_nin: [ObjectId]
+  href_ne: String
+  carBrand: String
+  href_lte: String
+  id_gte: Int
+  id_lte: Int
+  description_ne: String
+  amount_lt: Int
+  description_lte: String
+  href: String
+  category_exists: Boolean
+  name_gt: String
+  AND: [PartQueryInput!]
+  href_lt: String
+  imageSrc_gt: String
+  link_lte: String
+  imageSrc_ne: String
+  category_ne: String
+  link_lt: String
+  link_gt: String
+  href_gte: String
+  price: Int
+  category: String
+  isCategory_exists: Boolean
+  description_gte: String
+  description_in: [String]
+  price_gt: Int
+  name_nin: [String]
+  price_in: [Int]
+  price_lt: Int
+  _id_lte: ObjectId
+  description_exists: Boolean
+  id_exists: Boolean
+  category_in: [String]
+  category_nin: [String]
+  description_gt: String
+  OR: [PartQueryInput!]
+  price_gte: Int
+  description_lt: String
+  href_nin: [String]
+  carBrand_gt: String
+  href_exists: Boolean
+  _id_gte: ObjectId
+  link_gte: String
+  carBrand_nin: [String]
+  image_nin: [PartImageQueryInput]
+  name_lt: String
+}
+
+type UpdateManyPayload {
+  matchedCount: Int!
+  modifiedCount: Int!
+}
+
+input OrderPartInsertInput {
+  id: Int
+  amount: Int
+}
+
+input OrderDeliveryInsertInput {
+  town: String
+  street: String
+  postCode: String
+  description: String
+  delivery: String
+}
+
+type MovieTomatoViewer {
+  meter: Int
+  numReviews: Int
+  rating: Float
+}
+
+input OrderPartUpdateInput {
+  amount_unset: Boolean
+  id: Int
+  id_inc: Int
+  id_unset: Boolean
+  amount: Int
+  amount_inc: Int
+}
+
+input OrderPartQueryInput {
+  amount: Int
+  amount_exists: Boolean
+  id: Int
+  amount_nin: [Int]
+  id_gte: Int
+  OR: [OrderPartQueryInput!]
+  id_exists: Boolean
+  amount_in: [Int]
+  id_gt: Int
+  id_nin: [Int]
+  id_lte: Int
+  AND: [OrderPartQueryInput!]
+  amount_lte: Int
+  amount_gt: Int
+  id_in: [Int]
+  id_ne: Int
+  amount_ne: Int
+  amount_gte: Int
+  amount_lt: Int
+  id_lt: Int
+}
+
+type Part {
+  _id: ObjectId
+  amount: Int
+  carBrand: String
+  category: String
+  customName: DefaultPayload
+  description: String
+  href: String
+  id: Int
+  image: [PartImage]
+  imageSrc: String
+  isCategory: Boolean
+  link: String
+  name: String
+  price: Int
+}
+
+type Movie {
+  _id: ObjectId
+  awards: MovieAward
+  cast: [String]
+  countries: [String]
+  directors: [String]
+  fullplot: String
+  genres: [String]
+  imdb: MovieImdb
+  languages: [String]
+  lastupdated: String
+  metacritic: Int
+  num_mflix_comments: Int
+  plot: String
+  poster: String
+  rated: String
+  released: DateTime
+  runtime: Int
+  title: String
+  tomatoes: MovieTomato
+  type: String
+  writers: [String]
+  year: Int
+}
+
+enum PartSortByInput {
+  _ID_DESC
+  CARBRAND_DESC
+  CATEGORY_ASC
+  HREF_ASC
+  ID_DESC
+  PRICE_DESC
+  NAME_ASC
+  PRICE_ASC
+  LINK_ASC
+  NAME_DESC
+  _ID_ASC
+  CARBRAND_ASC
+  DESCRIPTION_DESC
+  ID_ASC
+  IMAGESRC_ASC
+  IMAGESRC_DESC
+  AMOUNT_ASC
+  CATEGORY_DESC
+  DESCRIPTION_ASC
+  HREF_DESC
+  LINK_DESC
+  AMOUNT_DESC
+}
+
+input CategoryUpdateInput {
+  _id: ObjectId
+  imageSrc_unset: Boolean
+  price_unset: Boolean
+  name_unset: Boolean
+  id_inc: Int
+  category: String
+  href: String
+  _id_unset: Boolean
+  price_inc: Int
+  category_unset: Boolean
+  id_unset: Boolean
+  imageSrc: String
+  price: Int
+  id: Int
+  name: String
+  href_unset: Boolean
+}
+
+input MovieAwardInsertInput {
+  nominations: Int
+  text: String
+  wins: Int
+}
+
+input PartImageInsertInput {
+  link: String
+}
+
+type Order {
+  _id: ObjectId
+  id: Int
+  orderPrice: Int
+  parts: [OrderPart]
+  userName: String
+}
+
+enum OrderSortByInput {
+  ORDERPRICE_DESC
+  USERNAME_ASC
+  USERNAME_DESC
+  _ID_ASC
+  _ID_DESC
+  ID_ASC
+  ID_DESC
+  ORDERPRICE_ASC
+}
+
+input PartInsertInput {
+  price: Int
+  _id: ObjectId
+  name: String
+  image: [PartImageInsertInput]
+  isCategory: Boolean
+  category: String
+  imageSrc: String
+  link: String
+  description: String
+  href: String
+  id: Int
+  amount: Int
+  carBrand: String
+}
+
+input MovieTomatoInsertInput {
+  dvd: DateTime
+  production: String
+  viewer: MovieTomatoViewerInsertInput
+  website: String
+  consensus: String
+  boxOffice: String
+  rotten: Int
+  critic: MovieTomatoCriticInsertInput
+  fresh: Int
+  lastUpdated: DateTime
+}
+
+input MovieTomatoCriticUpdateInput {
+  numReviews_inc: Int
+  rating: Float
+  meter_inc: Int
+  numReviews: Int
+  rating_inc: Float
+  rating_unset: Boolean
+  meter: Int
+  meter_unset: Boolean
+  numReviews_unset: Boolean
+}
+
+type Query {
+  categories(query: CategoryQueryInput, limit: Int = 100, sortBy: CategorySortByInput): [Category]!
+  category(query: CategoryQueryInput): Category
+  movie(query: MovieQueryInput): Movie
+  movies(query: MovieQueryInput, limit: Int = 100, sortBy: MovieSortByInput): [Movie]!
+  order(query: OrderQueryInput): Order
+  orders(query: OrderQueryInput, limit: Int = 100, sortBy: OrderSortByInput): [Order]!
+  part(query: PartQueryInput): Part
+  parts(query: PartQueryInput, limit: Int = 100, sortBy: PartSortByInput): [Part]!
+}
+
+scalar DateTime
+
+enum CategorySortByInput {
+  ID_ASC
+  _ID_DESC
+  HREF_DESC
+  HREF_ASC
+  ID_DESC
+  NAME_DESC
+  CATEGORY_ASC
+  CATEGORY_DESC
+  PRICE_DESC
+  IMAGESRC_ASC
+  IMAGESRC_DESC
+  PRICE_ASC
+  _ID_ASC
+  NAME_ASC
+}
+
+input OrderQueryInput {
+  userName_lte: String
+  id_lt: Int
+  _id: ObjectId
+  _id_gte: ObjectId
+  id_gt: Int
+  _id_gt: ObjectId
+  userName: String
+  parts_nin: [OrderPartQueryInput]
+  id_gte: Int
+  id_nin: [Int]
+  _id_in: [ObjectId]
+  orderPrice_lt: Int
+  userName_nin: [String]
+  parts_in: [OrderPartQueryInput]
+  id: Int
+  _id_lte: ObjectId
+  AND: [OrderQueryInput!]
+  orderPrice_ne: Int
+  parts: [OrderPartQueryInput]
+  orderPrice_nin: [Int]
+  orderPrice_exists: Boolean
+  userName_lt: String
+  parts_exists: Boolean
+  OR: [OrderQueryInput!]
+  id_ne: Int
+  orderPrice_gte: Int
+  userName_exists: Boolean
+  orderPrice_in: [Int]
+  orderPrice: Int
+  id_lte: Int
+  id_exists: Boolean
+  orderPrice_gt: Int
+  userName_ne: String
+  userName_in: [String]
+  _id_ne: ObjectId
+  id_in: [Int]
+  _id_nin: [ObjectId]
+  userName_gte: String
+  userName_gt: String
+  _id_exists: Boolean
+  orderPrice_lte: Int
+  _id_lt: ObjectId
+}
+
+input MovieInsertInput {
+  tomatoes: MovieTomatoInsertInput
+  awards: MovieAwardInsertInput
+  num_mflix_comments: Int
+  writers: [String]
+  languages: [String]
+  rated: String
+  title: String
+  poster: String
+  countries: [String]
+  directors: [String]
+  runtime: Int
+  released: DateTime
+  imdb: MovieImdbInsertInput
+  year: Int
+  type: String
+  fullplot: String
+  _id: ObjectId
+  cast: [String]
+  genres: [String]
+  lastupdated: String
+  metacritic: Int
+  plot: String
+}
+
+input MovieAwardQueryInput {
+  wins_lte: Int
+  text: String
+  text_in: [String]
+  wins_gt: Int
+  AND: [MovieAwardQueryInput!]
+  OR: [MovieAwardQueryInput!]
+  text_ne: String
+  wins: Int
+  nominations_ne: Int
+  text_exists: Boolean
+  text_lte: String
+  wins_nin: [Int]
+  nominations: Int
+  nominations_gte: Int
+  nominations_gt: Int
+  wins_lt: Int
+  wins_gte: Int
+  nominations_nin: [Int]
+  text_gt: String
+  wins_ne: Int
+  wins_exists: Boolean
+  nominations_lte: Int
+  text_nin: [String]
+  nominations_lt: Int
+  text_lt: String
+  nominations_in: [Int]
+  wins_in: [Int]
+  nominations_exists: Boolean
+  text_gte: String
+}

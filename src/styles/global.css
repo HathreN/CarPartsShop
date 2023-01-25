@@ -1,7 +1,10 @@
 @tailwind base;
 
 a {
-  @apply text-blue-700;
+  @apply text-navbar-primary;
+}
+a:hover {
+  @apply text-navbar-accents;
 }
 
 
@@ -17,4 +20,13 @@ a {
 .content ul {
   @apply my-6;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 40px;
+}
 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #333333;
+}

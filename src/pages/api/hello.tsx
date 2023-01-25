@@ -1,3 +1,4 @@
-export default function handler(req, res) {
+// @ts-ignore
+export default function handler(req:any, res:any) {
   res.status(200).json({ name: 'John Doe' })
 }

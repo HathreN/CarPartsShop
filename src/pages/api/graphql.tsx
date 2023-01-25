@@ -5,7 +5,7 @@ import { buildSchema, Field, ID, ObjectType, Query, Resolver } from 'type-graphq
 @ObjectType()
 export class Part{
   @Field(() => ID)
-  name: string;
+  name: string | undefined;
 }
 
 @Resolver(Part)
@@ -35,7 +35,7 @@ export const config = {
 
 const startServer = server.start();
 
-export default async function handler(req, res) {
+export default async function handler(req:any, res:any) {
   await startServer;
   await server.createHandler({ path: "/api/graphql" })(req, res);
 }

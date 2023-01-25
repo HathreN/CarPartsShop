@@ -1,10 +1,8 @@
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
-import { imageUrl } from '@/utils/Image';
-import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import ShoppingCartProduct from '@/components/ShoppingCartProduct';
@@ -18,7 +16,9 @@ export const FIND_ALL_PARTS = gql`
             id
             name
             price
-            image
+            image{
+                link
+            }
             link
             carBrand
             amount
@@ -28,7 +28,7 @@ export const FIND_ALL_PARTS = gql`
 let carParts:object = [];
 
 // @ts-ignore
-let queryList = [];
+let queryList:any = [];
 export default function ShoppingCart() {
 
   let priceTotal: number = 0;
@@ -45,17 +45,17 @@ export default function ShoppingCart() {
     variables: { query: {id_in: queryList} }
   });
   const parts = data ? data.parts : null;
-  const router = useRouter();
   let index: number =0;
-  function SortArrayAlpha(x, y){
+  function SortArrayAlpha(x:any, y:any){
     if (x.id < y.id) {return -1;}
     if (x.id > y.id) {return 1;}
-    console.log(x.id > y.id)
     return 0;
   }
   if(!loading) {
+    // @ts-ignore
     products.sort(SortArrayAlpha)
-    products.forEach((product) => {
+    // @ts-ignore
+    products.forEach((product:any) => {
       let tempPart = Object.freeze(parts[index]);
       tempPart = {
         id: tempPart.id,
@@ -66,7 +66,9 @@ export default function ShoppingCart() {
         carBrand: tempPart.carBrand,
         amount: product.amount
       };
+      // @ts-ignore
       carParts[index] = tempPart;
+      // @ts-ignore
       priceTotal += parts[index].price * products[index].amount;
       index++
     })
@@ -77,6 +79,7 @@ export default function ShoppingCart() {
     const cart: LocalStorageCart = JSON.parse(itemJSONData);
     let i: number = 0;
     cart.items.forEach((item: LocalStorageItem) => {
+      // @ts-ignore
       products[i] = item;
       i++;
     });
@@ -85,11 +88,12 @@ export default function ShoppingCart() {
 
   return (
     <div>
-      <div className='flex justify-center items-center flex-col hover:rounded-full hover:bg-gray-200 duration-300 hover:h-10 hover:w-10'>
+      <button className="flex rounded-full p-2 bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:bg-gray-700 hover:text-white">
+        <span className="sr-only rounded-full">Open shopping cart</span>
         <AiOutlineShoppingCart size={30} onClick={() => {
           setOpen(true);
         }} />
-      </div>
+      </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={setOpen}>
           <Transition.Child
@@ -129,7 +133,7 @@ export default function ShoppingCart() {
                         <div className='mt-8'>
                           <div className='flow-root'>
                             <ul role='list' className='-my-6 divide-y divide-gray-200'>
-                              {parts && parts.map((product, index) => (
+                              {parts && parts.map((product:any, index:number) => (
                                   <ShoppingCartProduct product={product} carParts={carParts} index={index}/>
                               ))}
                             </ul>
@@ -147,7 +151,7 @@ export default function ShoppingCart() {
                         <div className='mt-6'>
                           <a
                             href='/checkout'
-                            className='flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700'
+                            className='flex items-center justify-center rounded-md border border-transparent bg-gray-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-600'
                           >
                             Przejdź do płatności
                           </a>

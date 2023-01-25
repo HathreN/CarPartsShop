@@ -5,10 +5,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   eslint: {
+    ignoreDuringBuilds: true,
+    ignoreDuringCommits: true,
     dirs: ['.'],
   },
   poweredByHeader: false,
   trailingSlash: true,
+  exportTrailingSlash: false,
   basePath: '',
   // The starter code load resources from `public` folder with `router.basePath` in React components.
   // So, the source code is "basePath-ready".
@@ -21,4 +24,15 @@ module.exports = withBundleAnalyzer({
     config.experiments.topLevelAwait = true;
     return config;
   },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+        port: '',
+      },
+    ],
+  },
+  images: { domains: ['i.imgur.com'], formats: ['image/avif', 'image/webp'], },
 });

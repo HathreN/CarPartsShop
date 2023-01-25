@@ -1,16 +1,15 @@
-import Navbar from '@/components/Navbar';
+import Navbar2 from '@/components/Navbar2';
 import { useEffect, useState } from 'react';
 import { LocalStorageCart, LocalStorageItem } from '@/pages/part';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/client';
-import Link from 'next/link';
-import { imageUrl } from '@/utils/Image';
-import { useRouter } from 'next/router';
-import { Checkout, TempPart } from '@/types_realm';
-
+import { Checkout } from '@/types_realm';
+import { useUser } from '@auth0/nextjs-auth0';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 let products: [LocalStorageItem] = [{ id: 0, amount: 0 }];
 let partsList: [number] = [0];
-let carParts: [] = [];
+let carParts: any = [];
 export const FIND_ALL_PARTS = gql`
     query FindAllParts($query: PartQueryInput!) {
         parts(sortBy: ID_ASC,query: $query) {
@@ -18,7 +17,9 @@ export const FIND_ALL_PARTS = gql`
             id
             name
             price
-            image
+            image{
+                link
+            }
             link
             carBrand
             amount
@@ -28,13 +29,21 @@ export const FIND_ALL_PARTS = gql`
 
 // language=GraphQL
 export const INSERT_SHOPPING_CART = gql`
-    mutation ($orderPrice: Int, $parts: [OrderPartInsertInput]){
-        insertOneOrder(data: { id: 1,orderPrice: $orderPrice ,parts: $parts,userName:"test2" }){
+    mutation ($orderPrice: Int, $parts: [OrderPartInsertInput], $userName: String, $deliveryDetails: OrderDeliveryDetailInsertInput){
+        insertOneOrder(data: { id: 1,orderPrice: $orderPrice ,parts: $parts,userName: $userName, deliveryDetails: $deliveryDetails }){
+            _id
+            deliveryDetails {
+                delivery
+                description
+                postCode
+                street
+                town
+            }
             id
             orderPrice
             parts {
-                amount
                 id
+                amount
             }
             userName
         }
@@ -43,8 +52,9 @@ export const INSERT_SHOPPING_CART = gql`
 
 
 const Checkout = () => {
-  const router = useRouter();
+  const { user } = useUser();
   let [cartLength, setCartLength] = useState(0);
+  let [userEmail, setUserEmail] = useState();
   useEffect(() => {
     const itemJSONData = localStorage.getItem('shoppingCart') || '{"items": []}';
     const cart: LocalStorageCart = JSON.parse(itemJSONData);
@@ -65,11 +75,25 @@ const Checkout = () => {
   const { loading, data } = useQuery<{ parts: [Checkout] }>(FIND_ALL_PARTS, {
     variables: { query: { id_in: partsList } }
   });
-  const parts = data ? data.parts : null;
+  const parts:any = data ? data.parts : null;
   let index: number = 0;
   let priceTotal: number = 0;
+  const [formData, setFormData] = useState({
+    description: "",
+    postCode: "",
+    street: "",
+    town: "",
+    delivery: ""
+  })
+  // @ts-ignore
+  const updateFormData = e =>{
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
 
-  function SortArrayAlpha(x, y) {
+  function SortArrayAlpha(x:any, y:any) {
     if (x.id < y.id) {
       return -1;
     }
@@ -93,7 +117,9 @@ const Checkout = () => {
         carBrand: tempPart.carBrand,
         amount: product.amount
       };
+      // @ts-ignore
       carParts[index] = tempPart;
+      // @ts-ignore
       priceTotal += parts[index].price * products[index].amount;
       index++;
     });
@@ -102,24 +128,52 @@ const Checkout = () => {
   const [placeOrderInDB] = useMutation(INSERT_SHOPPING_CART);
 
   const placeOrder = async () => {
-    console.log(123);
-    await placeOrderInDB({
-      variables: { orderPrice: priceTotal, parts: products }
-    });
+    if((userEmail=="" && !user) || formData.town=="" || formData.street=="" || formData.delivery=="" || formData.postCode==""){
+      toast.error("Niektóre informacje dotyczące dostawy nie zostały wypełnione!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    } else {
+      if (user?.email) {
+        await placeOrderInDB({
+          variables: { orderPrice: priceTotal, parts: products, userName: user?.name, deliveryDetails: formData }
+        });
+      } else {
+        await placeOrderInDB({
+          variables: { orderPrice: priceTotal, parts: products, userName: userEmail, deliveryDetails: formData }
+        });
+      }
+      toast.success("Dziękujemy za złożenie zamówienia!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        onClose: () => {
+          location.href = '/'
+        }
+      });
+    }
   };
-
   return (
     <div className='bg-white'>
-      <Navbar />
+      <Navbar2 />
       <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
         <h2 className='text-2xl font-extrabold tracking-tight text-gray-900'>Przedmioty znajdujące się w twoim
           koszyku</h2>
 
         <div className='mt-6 gap-y-10 gap-x-6 xl:gap-x-8'>
-          {!loading && parts.map((product, index) => (
+          {!loading && parts.map((product:any, index:number) => (
             <div key={product.id} className='flex flex-row py-6'>
               <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
-                <img className='w-full h-full object-center object-cover' src={imageUrl(router, product.image)}
+                <img className='w-full h-full object-center object-cover' src={product.image[0].link}
                      alt={product.name} />
               </div>
 
@@ -179,20 +233,145 @@ const Checkout = () => {
               <p>{priceTotal + ' zł'}</p>
             </div>
             <p className='mt-0.5 text-sm text-gray-500'>Koszty dostawy i podatek naliczany przy płatności.</p>
-            <Link
-              href='/'
-            >
-              <div
-                className='flex items-center justify-center rounded-md text-test-1 border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700'
-                onClick={() => {
-                  placeOrder();
-                }}>
-                <h1 className='text-black'>
-                  Przejdź do płatności</h1>
-              </div>
-            </Link>
           </div>
         </div>
+      </div>
+
+      <div>
+        <form id="formDelivery">
+          <div className='shadow sm:rounded-md sm:overflow-hidden'>
+              <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
+                {!user &&<div className='grid grid-cols-3 gap-6'>
+                <div className='col-span-3 sm:col-span-2'>
+                  <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                    Email:
+                  </label>
+                  <div className='mt-1 flex rounded-md shadow-sm'>
+                    <input
+                      type='text'
+                      name='email'
+                      id='email'
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                      placeholder='przyklad@gmail.com'
+                      onChange={(e)=>{ // @ts-ignore
+                        setUserEmail(e.target.value)}}
+                    />
+                  </div>
+                </div>
+              </div>}
+              <div className='grid grid-cols-3 gap-6'>
+                <div className='col-span-3 sm:col-span-2'>
+                  <label htmlFor='miejscowosc' className='block text-sm font-medium text-gray-700'>
+                    Miejscowość:
+                  </label>
+                  <div className='mt-1 flex rounded-md shadow-sm'>
+                    <input
+                      type='text'
+                      name='town'
+                      id='miejscowosc'
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                      placeholder='Tarnów'
+                      onChange={updateFormData}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='grid grid-cols-3 gap-6'>
+                <div className='col-span-3 sm:col-span-2'>
+                  <label htmlFor='ulica' className='block text-sm font-medium text-gray-700'>
+                    Ulica oraz numer domu:
+                  </label>
+                  <div className='mt-1 flex rounded-md shadow-sm'>
+                    <input
+                      type='text'
+                      name='street'
+                      id='ulica'
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                      placeholder='Krakowska 16'
+                      onChange={updateFormData}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='grid grid-cols-3 gap-6'>
+                <div className='col-span-3 sm:col-span-2'>
+                  <label htmlFor='kodPocztowy' className='block text-sm font-medium text-gray-700'>
+                    Kod pocztowy:
+                  </label>
+                  <div className='mt-1 flex rounded-md shadow-sm'>
+                    <input
+                      type='text'
+                      name='postCode'
+                      id='kodPocztowy'
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                      placeholder='33-100'
+                      onChange={updateFormData}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='grid grid-cols-3 gap-6'>
+                <div className='col-span-3 sm:col-span-2'>
+                  <label htmlFor='dostawa' className='block text-sm font-medium text-gray-700'>
+                    Sposób dostawy:
+                  </label>
+                  <div className='mt-1 flex rounded-md '>
+                    <input
+                      type='radio'
+                      name='delivery'
+                      value="kurier"
+                      id='kurier'
+                      onChange={updateFormData}
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                    />Przesyłka kurierska(+15zł)
+                    <input
+                      type='radio'
+                      name='delivery'
+                      value="paczkomat"
+                      id='paczkomat'
+                      onChange={updateFormData}
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                    />Paczkomat(+9zł)
+                    <input
+                      type='radio'
+                      name='delivery'
+                      value="odbior"
+                      id='odbior'
+                      onChange={updateFormData}
+                      className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                    />Odbiór w sklepie(+0zł)
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label htmlFor='dodatkoweInformacje' className='block text-sm font-medium text-gray-700'>
+                  Dodatkowe informacje:
+                </label>
+                <div className='mt-1'>
+                            <textarea
+                              id='dodatkoweInformacje'
+                              name='description'
+                              rows={3}
+                              className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm text-gray-900 border border-gray-300 rounded-md'
+                              placeholder='Opis'
+                              defaultValue={''}
+                              onChange={updateFormData}
+                            />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div className='px-4 py-3 bg-gray-50 text-right sm:px-6 flex items-center justify-center'>
+
+        <button
+          onClick={()=>{placeOrder()}}
+          className='flex items-center justify-center rounded-md border border-transparent bg-gray-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-600'
+        >
+          Dodaj przedmiot
+        </button>
+        <ToastContainer/>
       </div>
     </div>
   );
