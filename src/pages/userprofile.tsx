@@ -2,7 +2,7 @@ import Navbar2 from '@/components/Navbar2';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default () => {
-  const { user: { email, nickname, picture, updated_at }, isLoading } :any = useUser();
+  const { user, isLoading } :any = useUser();
   if(!isLoading) {
     return (
       <div>
@@ -17,16 +17,16 @@ export default () => {
             </div>
             <div className="flex justify-center px-5  -mt-12">
               <img className="h-32 w-32 bg-white p-2 rounded-full"
-                   src={picture}
+                   src={user.picture}
                    alt="" />
 
             </div>
             <div className=" ">
               <div className="text-center px-14">
-                <h2 className="text-gray-800 text-3xl font-bold">{nickname}</h2>
+                <h2 className="text-gray-800 text-3xl font-bold">{user.nickname}</h2>
                 <a className="text-gray-400 mt-2 hover:text-blue-500" href="https://www.instagram.com/immohitdhiman/"
-                   target="BLANK()">{email}</a>
-                <p className="mt-2 text-gray-500 text-sm">Użytkownik dołączył: {(updated_at)?.substring(0,10)}</p>
+                   target="BLANK()">{user.email}</a>
+                <p className="mt-2 text-gray-500 text-sm">Użytkownik dołączył: {(user.updated_at)?.substring(0,10)}</p>
               </div>
               <hr className="mt-6" />
               <div className="flex  bg-gray-50 ">

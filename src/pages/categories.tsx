@@ -2,7 +2,6 @@ import Navbar2 from '@/components/Navbar2';
 import { useQuery } from '@apollo/client';
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { Categories } from '@/types_realm';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import SingleCategoryIcon from '@/components/SingleCategoryIcon';
 
@@ -19,11 +18,10 @@ export const FIND_CATEGORIES = gql`
 `;
 const Categories = () => {
 
-  const { loading, data } = useQuery<{ parts: Categories[] }>(FIND_CATEGORIES, {
-    variables: { query: { name: 'wnetrze' } }
+  const { loading, data } = useQuery(FIND_CATEGORIES, {
+    variables: { }
   });
-  const { categories }:any = data;
-  const category = data ? categories : null;
+  const category = data ? data.parts : null;
   return (
     <div className='bg-white'>
       <Navbar2 />
