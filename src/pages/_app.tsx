@@ -60,15 +60,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-  const credentials = Realm.Credentials.anonymous();
-
-  try {
-    let user;
-    user = await app.logIn(credentials);
-    window.localStorage.setItem('UID', user.id)
-  } catch (err) {
-    console.error('Failed to log in', err);
-  }
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <UserProvider>
