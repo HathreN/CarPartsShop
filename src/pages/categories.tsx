@@ -19,9 +19,9 @@ export const FIND_CATEGORIES = gql`
 const Categories = () => {
 
   const { loading, data } = useQuery(FIND_CATEGORIES, {
-    variables: { }
+    variables: { query: { name: 'wnetrze' }  }
   });
-  const category = data ? data.parts : null;
+  const category = data ? data.categories : null;
   return (
     <div className='bg-white'>
       <Navbar2 />
@@ -30,9 +30,9 @@ const Categories = () => {
 
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
           {(!loading &&
-          !category && <div className='status'>Loading</div>)}
+            !category && <div className='status'>Ładowanie</div>)}
 
-          {!loading && category.map((singleCategory:any) => (
+          {!loading && category!=undefined && category.map((singleCategory:any) => (
             <SingleCategoryIcon singleCategory={singleCategory} key={singleCategory.id}/>
           ))}
           {loading &&
