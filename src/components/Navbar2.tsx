@@ -145,7 +145,7 @@ export default function Navbar2() {
                           <span className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                             <div>
                             <span className={'block px-4 py-2 text-sm text-gray-700'} onClick={()=>{
-                              location.href=('http://localhost:3000/userprofile')
+                              location.href=('/userprofile')
                               resetCurrentNavigation(0)}}>Twój profil</span>
                           </div>
                           </span>
@@ -156,7 +156,7 @@ export default function Navbar2() {
                           <span className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                           <div>
                             <span className={'block px-4 py-2 text-sm text-gray-700'} onClick={()=>{
-                              location.href=('http://localhost:3000/userorders')
+                              location.href=('/userorders')
                               resetCurrentNavigation(0)}}>Twoje zamówienia</span>
                           </div>
                           </span>
@@ -167,10 +167,10 @@ export default function Navbar2() {
                           <span className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm')}>
                             <div>
                             {!user&& <span className={'block px-4 py-2 text-sm text-gray-700'} onClick={()=>{
-                              location.href=('http://localhost:3000/api/auth/login')
+                              location.href=('/api/auth/login')
                               resetCurrentNavigation(0)}}>Zaloguj się</span>}
                             {user&&<span className={'block px-4 py-2 text-sm text-gray-700'} onClick={()=>{
-                              location.href=('http://localhost:3000/api/auth/logout')
+                              location.href=('/api/auth/logout')
                               resetCurrentNavigation(0)}}>Wyloguj się</span>}
                           </div>
                           </span>
@@ -181,7 +181,7 @@ export default function Navbar2() {
                           <span className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm')}>
                             <div>
                               {user?.email=="uroxx12@gmail.com" &&<span className={'block px-4 py-2 text-sm text-gray-700'} onClick={()=>{
-                                location.href=('http://localhost:3000/adminPanel')
+                                location.href=('/adminPanel')
                                 resetCurrentNavigation(0)}}>Przejdź do panelu administratora</span>}
                           </div>
                           </span>
