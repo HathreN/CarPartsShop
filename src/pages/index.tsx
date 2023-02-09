@@ -11,10 +11,10 @@ const Index = () => {
     localStorage.setItem('userEmail', user.email)
   }
   return (
-    <div className='bg-gray-100 h-screen'>
+    <div className='bg-gray-100 h-screen overflow-y-hidden'>
       <Navbar2 />
       <div className='bg-gray-100 lg:max-w-[1500px] sm:w-2/3 md:max-w-[675px] m-auto sm:mt-16 relative bg-white overflow-hidden w-screen md:flex wrap md:grid md:grid-cols-4 gap-x-6 '>
-        <div className="bg-white sm:col-span-1 w-4/5 m-auto my-2">
+        <div className="bg-white sm:col-span-1 w-4/5 m-auto my-4">
           <IndexCategories/>
         </div>
         <div className='bg-white mx-auto sm:col-span-5 w-4/5 mb-2 rounded-t-2xl lg:h-[490px] md:h-[544px] w-full'>

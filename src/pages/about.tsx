@@ -37,7 +37,7 @@ const features = [
 const About = () => {
 
   return (
-    <div>
+    <div className="h-screen">
       <Navbar2 />
       <div className="mt-36 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">

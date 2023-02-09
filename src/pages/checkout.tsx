@@ -38,6 +38,7 @@ export const INSERT_SHOPPING_CART = gql`
                 postCode
                 street
                 town
+                phoneNumber
             }
             id
             orderPrice
@@ -83,7 +84,8 @@ const Checkout = () => {
     postCode: "",
     street: "",
     town: "",
-    delivery: ""
+    delivery: "",
+    phoneNumber: ""
   })
   // @ts-ignore
   const updateFormData = e =>{
@@ -128,8 +130,8 @@ const Checkout = () => {
   const [placeOrderInDB] = useMutation(INSERT_SHOPPING_CART);
 
   const placeOrder = async () => {
-    if((userEmail=="" && !user) || formData.town=="" || formData.street=="" || formData.delivery=="" || formData.postCode==""){
-      toast.error("Niektóre informacje dotyczące dostawy nie zostały wypełnione!", {
+    if((userEmail=="" && !user) || formData.town=="" || formData.street=="" || formData.delivery=="" || formData.postCode=="" || formData.phoneNumber==""){
+      toast.error("Nie wszystkie informacje dotyczące dostawy zostały wypełnione!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -237,14 +239,14 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div>
+      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <form id="formDelivery">
           <div className='shadow sm:rounded-md sm:overflow-hidden'>
               <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
                 {!user &&<div className='grid grid-cols-3 gap-6'>
                 <div className='col-span-3 sm:col-span-2'>
-                  <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-                    Email:
+                  <label htmlFor='email' className='block text-sm font-medium text-gray-700 flex'>
+                    Email: <h2 className="text-red-600">*</h2>
                   </label>
                   <div className='mt-1 flex rounded-md shadow-sm'>
                     <input
@@ -261,8 +263,8 @@ const Checkout = () => {
               </div>}
               <div className='grid grid-cols-3 gap-6'>
                 <div className='col-span-3 sm:col-span-2'>
-                  <label htmlFor='miejscowosc' className='block text-sm font-medium text-gray-700'>
-                    Miejscowość:
+                  <label htmlFor='miejscowosc' className='block text-sm font-medium text-gray-700 flex'>
+                    Miejscowość: <h2 className="text-red-600">*</h2>
                   </label>
                   <div className='mt-1 flex rounded-md shadow-sm'>
                     <input
@@ -278,8 +280,8 @@ const Checkout = () => {
               </div>
               <div className='grid grid-cols-3 gap-6'>
                 <div className='col-span-3 sm:col-span-2'>
-                  <label htmlFor='ulica' className='block text-sm font-medium text-gray-700'>
-                    Ulica oraz numer domu:
+                  <label htmlFor='ulica' className='block text-sm font-medium text-gray-700 flex'>
+                    Ulica oraz numer domu: <h2 className="text-red-600">*</h2>
                   </label>
                   <div className='mt-1 flex rounded-md shadow-sm'>
                     <input
@@ -295,8 +297,8 @@ const Checkout = () => {
               </div>
               <div className='grid grid-cols-3 gap-6'>
                 <div className='col-span-3 sm:col-span-2'>
-                  <label htmlFor='kodPocztowy' className='block text-sm font-medium text-gray-700'>
-                    Kod pocztowy:
+                  <label htmlFor='kodPocztowy' className='block text-sm font-medium text-gray-700 flex'>
+                    Kod pocztowy: <h2 className="text-red-600">*</h2>
                   </label>
                   <div className='mt-1 flex rounded-md shadow-sm'>
                     <input
@@ -310,12 +312,29 @@ const Checkout = () => {
                   </div>
                 </div>
               </div>
+                <div className='grid grid-cols-3 gap-6'>
+                  <div className='col-span-3 sm:col-span-2'>
+                    <label htmlFor='phoneNumber' className='block text-sm font-medium text-gray-700 flex'>
+                      Numer telefonu: <h2 className="text-red-600">*</h2>
+                    </label>
+                    <div className='mt-1 flex rounded-md shadow-sm'>
+                      <input
+                        type='text'
+                        name='phoneNumber'
+                        id='phoneNumber'
+                        className='focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300'
+                        placeholder='123 456 789'
+                        onChange={updateFormData}
+                      />
+                    </div>
+                  </div>
+                </div>
               <div className='grid grid-cols-3 gap-6'>
                 <div className='col-span-3 sm:col-span-2'>
-                  <label htmlFor='dostawa' className='block text-sm font-medium text-gray-700'>
-                    Sposób dostawy:
+                  <label htmlFor='dostawa' className='block text-sm font-medium text-gray-700 flex'>
+                    Sposób dostawy: <h2 className="text-red-600">*</h2>
                   </label>
-                  <div className='mt-1 flex rounded-md '>
+                  <div className='mt-1 rounded-md '>
                     <input
                       type='radio'
                       name='delivery'
@@ -359,6 +378,11 @@ const Checkout = () => {
                             />
                 </div>
               </div>
+                <div>
+                  <label htmlFor='dodatkoweInformacje' className='block text-sm font-medium text-gray-700 flex'>
+                    <h2 className="text-red-600">* </h2>oznacza obowiązkowe dane
+                  </label>
+                </div>
             </div>
           </div>
         </form>
@@ -369,7 +393,7 @@ const Checkout = () => {
           onClick={()=>{placeOrder()}}
           className='flex items-center justify-center rounded-md border border-transparent bg-gray-700 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-600'
         >
-          Dodaj przedmiot
+          Potwierdź oraz złóż zamówienie
         </button>
         <ToastContainer/>
       </div>

@@ -90,7 +90,7 @@ export default function ShoppingCart() {
     <div>
       <button className="flex rounded-full p-2 bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:bg-gray-700 hover:text-white">
         <span className="sr-only rounded-full">Open shopping cart</span>
-        <AiOutlineShoppingCart size={30} onClick={() => {
+        <AiOutlineShoppingCart size={30} color="white" onClick={() => {
           setOpen(true);
         }} />
       </button>

@@ -83,8 +83,8 @@ export default function Navbar2() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <Link href='/'>
                 <div className="flex flex-shrink-0 items-center hover:bg-gray-700 hover:text-white rounded-full p-1" onClick={()=>{resetCurrentNavigation(0)}}>
-                  <FaHome className='block h-8 w-auto lg:hidden'/>
-                  <FaHome className="hidden h-8 w-auto lg:block" />
+                  <FaHome className='block h-8 w-auto lg:hidden' color="white"/>
+                  <FaHome className="hidden h-8 w-auto lg:block" color="white"/>
                 </div>
               </Link>
 
@@ -127,7 +127,7 @@ export default function Navbar2() {
                   <div>
                     <Menu.Button className="flex rounded-full p-2 bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:bg-gray-700 hover:text-white">
                       <span className="sr-only rounded-full">Open user menu</span>
-                      <FaUser size={20}/>
+                      <FaUser size={20} color="white"/>
                     </Menu.Button>
                   </div>
                   <Transition

@@ -3,6 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 
 export default () => {
   const { user, isLoading } :any = useUser();
+  console.log(user)
   if(!isLoading) {
     return (
       <div>
@@ -26,16 +27,15 @@ export default () => {
                 <h2 className="text-gray-800 text-3xl font-bold">{user.nickname}</h2>
                 <a className="text-gray-400 mt-2 hover:text-blue-500" href="https://www.instagram.com/immohitdhiman/"
                    target="BLANK()">{user.email}</a>
-                <p className="mt-2 text-gray-500 text-sm">Użytkownik dołączył: {(user.updated_at)?.substring(0,10)}</p>
               </div>
               <hr className="mt-6" />
               <div className="flex  bg-gray-50 ">
                 <div className="text-center w-1/2 p-4 hover:bg-gray-100 cursor-pointer">
-                  <p><span className="font-semibold">2.5 k </span> Followers</p>
+                  <p><span className="font-semibold">Ilość zamówień: </span> 4</p>
                 </div>
                 <div className="border"></div>
                 <div className="text-center w-1/2 p-4 hover:bg-gray-100 cursor-pointer">
-                  <p><span className="font-semibold">2.0 k </span> Following</p>
+                  <p><span className="font-semibold">Użytkownik dołączył: </span> {(user.updated_at)?.substring(0,10)}</p>
                 </div>
 
               </div>

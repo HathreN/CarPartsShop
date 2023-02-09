@@ -81,7 +81,7 @@ const Part = () => {
   }
   return (
 
-    <div className="bg-white">
+    <div className="bg-white h-screen">
       <Navbar2 />
       <div className="pt-6">
         <nav aria-label="Breadcrumb">

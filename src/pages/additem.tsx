@@ -2,7 +2,7 @@ import Navbar2 from '@/components/Navbar2';
 
 export default function Additem () {
   return (
-    <div className=' md:mt-0 md:col-span-2'>
+    <div className=' md:mt-0 md:col-span-2 h-screen'>
       <Navbar2/>
       <form action='#' method='POST'>
         <div className='shadow sm:rounded-md sm:overflow-hidden'>
